@@ -1,0 +1,1012 @@
+{
+  "meta": {
+    "title": "K For Kreative | Premium Creative That Performs",
+    "description": "K For Kreative is a premium creative marketing agency for small businesses and personal brands, specializing in social media management, video editing, Meta ads, and conversion-focused websites.",
+    "canonicalUrl": "https://kforkreative.in/",
+    "image": "https://kforkreative.in/assets/logos/color-black-crop.png",
+    "keywords": "social media management agency India, video editing for brands, Meta ads, website development, website design, digital marketing for small businesses, health and wellness marketing, content marketing"
+  },
+  "nav": [
+    {
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Services",
+      "href": "#services"
+    },
+    {
+      "label": "Work",
+      "href": "#work"
+    },
+    {
+      "label": "Process",
+      "href": "#process"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
+  ],
+  "assets": {
+    "logoBlack": "/assets/logos/color-black-crop.png",
+    "logoWhite": "/assets/logos/color-white-crop.png",
+    "favicon": "/assets/uploads/1779602758074-Color-Black-Faviconpng.png"
+  },
+  "sections": {
+    "hero": "/assets/art/hero-art.png",
+    "about": "/assets/art/about-art.png",
+    "services": "/assets/art/services-art.png",
+    "work": "/assets/art/work-art.png",
+    "process": "/assets/art/process-art.png",
+    "proof": "/assets/art/proof-art.png",
+    "stories": "/assets/art/stories-art.png",
+    "contact": "/assets/art/contact-art.png",
+    "socialPortfolio": "/assets/icons/social/website.png",
+    "socialInstagram": "/assets/icons/social/instagram.png",
+    "socialLinkedin": "/assets/icons/social/linkedin.png",
+    "socialWhatsapp": "/assets/icons/social/whatsapp.png",
+    "socialEmail": "/assets/icons/social/mail.png"
+  },
+  "hero": {
+    "eyebrow": "Premium social media + video editing agency",
+    "headline": "Premium Creative That Performs.",
+    "emphasis": "Performs.",
+    "subhead": "K For Kreative helps small businesses and personal brands look premium, stay consistent, and grow faster with video editing, social media management, Meta ads, and conversion-focused websites.",
+    "ctaPrimary": "Let's Talk",
+    "ctaSecondary": "View Our Work",
+    "artCaption": "Social media management, video editing, Meta ads, and conversion-focused websites.",
+    "stats": [
+      {
+        "value": "15+",
+        "label": "Clients"
+      },
+      {
+        "value": "300+",
+        "label": "Reels Edited"
+      },
+      {
+        "value": "10+",
+        "label": "Accounts Managed"
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "About the studio",
+    "headline": "We make brands look unforgettable long before they feel inevitable.",
+    "emphasis": "unforgettable",
+    "body": "Founded in 2024, K For Kreative is built for founders, creators, and growing businesses that need premium creative without agency-heavy complexity. We bring strategy, design taste, video editing, social media management, Meta ads, and website development into one focused system.",
+    "linkLabel": "Browse our work",
+    "artCaption": "Premium content, clear strategy, and consistent creative execution in one growth system."
+  },
+  "services": {
+    "intro": {
+      "eyebrow": "Services",
+      "headline": "Creative systems for brands that need [Attention], [Consistency], and [Trust].",
+      "emphasis": "Attention",
+      "body": "From high-retention video editing and social media management to high-converting Meta ads and custom websites, we build growth systems that perform.",
+      "linkLabel": "See how we work"
+    },
+    "items": [
+    {
+      "badge": "Featured",
+      "title": "Video Editing",
+      "body": "Scroll-stopping hooks, clean cuts, captions, sound design, and storytelling edits for brands that want short-form content people actually watch.",
+      "icon": "video"
+    },
+    {
+      "badge": "Growth",
+      "title": "Social Media Management",
+      "body": "Monthly content planning, posting rhythm, captions, creative direction, and profile consistency to grow your community organically.",
+      "icon": "social"
+    },
+    {
+      "badge": "Performance",
+      "title": "Meta Ads",
+      "body": "High-ROI Facebook and Instagram ad campaigns, creative testing, precise targeting, and conversion-focused copy to acquire customers.",
+      "icon": "ai"
+    },
+    {
+      "badge": "Conversions",
+      "title": "Website Development",
+      "body": "Stunning, high-performance landing pages and business websites optimized for maximum conversions and clean user experience.",
+      "icon": "web"
+    }]
+  },
+  "videoEditing": {
+    "badge": "Video Editing Services",
+    "headline": "Video Editing Spliced for [High Retention].",
+    "emphasis": "High Retention",
+    "lead": "From scroll-stopping Instagram Reels to conversion-driven ads, we turn your raw clips into premium, high-retention video content that hooks your audience and drives results.",
+    "images": {
+      "hero": "/assets/service-images/video-editing/hero.png",
+      "cta": "/assets/service-images/video-editing/cta.png"
+    },
+    "ctaPrimary": "Start a video project",
+    "ctaSecondary": "Browse Selected Reels",
+    "formatsEyebrow": "Video Architecture",
+    "formatsHeadline": "Video Formats We [Master & Scale]",
+    "formatsBody": "We edit across multiple short-form variants, adapting pacing and style to the specific platform algorithms.",
+    "formats": [
+      {
+        "num": "01",
+        "title": "UGC Advertising Hooks",
+        "body": "Fast-paced, pattern-interrupting ads designed for direct response and high ROAS on Meta and TikTok."
+      },
+      {
+        "num": "02",
+        "title": "Educational Talking Heads",
+        "body": "Clean, authority-building content with kinetic typography to keep viewers engaged while learning."
+      },
+      {
+        "num": "03",
+        "title": "Podcast Micro-Clips",
+        "body": "We extract the highest-impact 30-second moments from long-form content to drive viral top-of-funnel reach."
+      }
+    ],
+    "showcaseEyebrow": "Selected Reels",
+    "showcaseHeadline": "Client Video Showcase",
+    "showcaseBody": "Hover or click on the reels below to play and see our high-retention pacing, caption styling, and grading.",
+    "reels": [
+      {
+        "id": "expensive-thing",
+        "title": "Most Expensive Thing",
+        "category": "Lifestyle",
+        "videoUrl": "https://www.youtube.com/embed/Qj453-44iUI",
+        "duration": "0:45",
+        "views": "—"
+      },
+      {
+        "id": "sugar-jaggery",
+        "title": "Sugar vs Jaggery",
+        "category": "Health & Wellness",
+        "videoUrl": "https://www.youtube.com/embed/A9c7F63TD6I",
+        "duration": "0:55",
+        "views": "—"
+      },
+      {
+        "id": "haldi-function",
+        "title": "Haldi Function",
+        "category": "Events",
+        "videoUrl": "https://www.youtube.com/embed/DCSOlF7DKCI",
+        "duration": "0:30",
+        "views": "—"
+      },
+      {
+        "id": "ted-talk",
+        "title": "Policy Maker's TED Talk",
+        "category": "Education",
+        "videoUrl": "https://www.youtube.com/embed/lbSN4UtyC6o",
+        "duration": "0:58",
+        "views": "—"
+      },
+      {
+        "id": "weight-loss",
+        "title": "Weight Loss Ka Asli Sach",
+        "category": "Health & Fitness",
+        "videoUrl": "https://www.youtube.com/embed/YKJ2frOfhz4",
+        "duration": "0:52",
+        "views": "—"
+      },
+      {
+        "id": "politics-care",
+        "title": "Why should we care about Politics",
+        "category": "Education",
+        "videoUrl": "https://www.youtube.com/embed/26kWsdKE6_c",
+        "duration": "0:40",
+        "views": "—"
+      },
+      {
+        "id": "birthday-shoot",
+        "title": "Birthday Party Shoot",
+        "category": "Events",
+        "videoUrl": "https://www.youtube.com/embed/UjkvMb5RVLY",
+        "duration": "0:35",
+        "views": "—"
+      },
+      {
+        "id": "mango-sach",
+        "title": "Mango ka Sach",
+        "category": "Health & Wellness",
+        "videoUrl": "https://www.youtube.com/embed/qP-7VLy7lC8",
+        "duration": "0:48",
+        "views": "—"
+      },
+      {
+        "id": "new-year",
+        "title": "New Year Special",
+        "category": "Events",
+        "videoUrl": "https://www.youtube.com/embed/gMJ5q7EV6Pk",
+        "duration": "0:30",
+        "views": "—"
+      },
+      {
+        "id": "cybercrime",
+        "title": "Cybercrime Safety",
+        "category": "Education",
+        "videoUrl": "https://www.youtube.com/embed/ukemGXT0ur0",
+        "duration": "0:60",
+        "views": "—"
+      }
+    ],
+    "processEyebrow": "The Workflow",
+    "processHeadline": "How We Craft [High-Retention] Edits",
+    "processBody": "Our four-step production pipeline is engineered for speed, collaboration, and performance quality.",
+    "processSteps": [
+      {
+        "step": "01",
+        "title": "Footage & Brief",
+        "desc": "Send us your raw recordings and brief. We analyze the concept, identify content hooks, and lock in the creative direction."
+      },
+      {
+        "step": "02",
+        "title": "Splicing & Pacing",
+        "desc": "We trim dead space, frame visual pattern interrupts, and construct a high-retention timeline built to maximize watch time."
+      },
+      {
+        "step": "03",
+        "title": "Captions & Sound FX",
+        "desc": "We layer animated kinetic captions, synced sound effects, background tracks, and clean color grading to fit your brand identity."
+      },
+      {
+        "step": "04",
+        "title": "Feedback & Delivery",
+        "desc": "You review the draft in our workflow, request any minor edits, and receive the finalized high-retention video ready to publish."
+      }
+    ],
+    "metricsBadge": "Editing Impact",
+    "metricsHeadline": "Video Performance Metrics",
+    "metricsBody": "Aggregated statistics comparing our edited short-form videos against baseline organic uploads.",
+    "metrics": [
+      {
+        "label": "Hook Retention (3s)",
+        "value": "68%",
+        "trend": "+24% vs baseline"
+      },
+      {
+        "label": "Watch Time Avg",
+        "value": "85%",
+        "trend": "Full video completion"
+      },
+      {
+        "label": "Engagement Rate",
+        "value": "14.2%",
+        "trend": "Likes, Saves, Shares"
+      },
+      {
+        "label": "Visual Density",
+        "value": "1.5s",
+        "trend": "Avg transition time"
+      }
+    ]
+  },
+  "socialMedia": {
+    "badge": "Social Media Management",
+    "headline": "Social Media Management Tailored for [Community Growth].",
+    "emphasis": "Community Growth",
+    "lead": "We own your content engine from organic strategy and calendar curation to profile consistency, caption writing, and aesthetic direction.",
+    "images": {
+      "hero": "/assets/service-images/social-media/hero.png",
+      "cta": "/assets/service-images/social-media/cta.png"
+    },
+    "ctaPrimary": "Start Social Media Growth",
+    "ctaSecondary": "View Managed Accounts",
+    "accountsEyebrow": "Client Profiles",
+    "accountsHeadline": "Client Profiles We [Direct & Scale]",
+    "accountsBody": "We craft the visual direction and schedule timelines for brands across wellness, startup, and coaching niches. Select a profile to view their reels.",
+    "accounts": [
+      {
+        "name": "Devi Bar",
+        "handle": "@devi_lifestyle_coach",
+        "niche": "Lifestyle & Wellness",
+        "stat": "63.5K+ Followers",
+        "instagramUrl": "https://www.instagram.com/devi_lifestyle_coach/"
+      },
+      {
+        "name": "Hemali Kevalia",
+        "handle": "@hemali_kevalia24",
+        "niche": "Health & Coaching",
+        "stat": "10K+ Followers",
+        "instagramUrl": "https://www.instagram.com/hemali_kevalia24/"
+      },
+      {
+        "name": "Mithun Bar",
+        "handle": "@gofitness24_",
+        "niche": "Fitness & Sports",
+        "stat": "24K+ Followers",
+        "instagramUrl": "https://www.instagram.com/gofitness24_/"
+      },
+      {
+        "name": "Krish Computer",
+        "handle": "@krish.computer",
+        "niche": "Technology & Education",
+        "stat": "2.1K+ Followers",
+        "instagramUrl": "https://www.instagram.com/krish.computer/"
+      },
+      {
+        "name": "Pushti Shah",
+        "handle": "@pushti.shah",
+        "niche": "Creative & Lifestyle",
+        "stat": "18.4K+ Followers",
+        "instagramUrl": "https://www.instagram.com/"
+      }
+    ],
+    "reelsEyebrow": "Reels Portfolio",
+    "reelsHeadline": "Client Reels Showcase",
+    "reelsBody": "Select a client below to view pacing and formatting designed for page growth.",
+    "clientReels": [
+      {
+        "id": "devi-1",
+        "title": "Flavoured Yogurt",
+        "category": "@devi_lifestyle_coach",
+        "videoUrl": "https://www.youtube.com/embed/6k2icBVXERU",
+        "duration": "0:30",
+        "views": "186K",
+        "comments": "42",
+        "engagement": "6.8%"
+      },
+      {
+        "id": "devi-2",
+        "title": "Kid's Tiffin",
+        "category": "@devi_lifestyle_coach",
+        "videoUrl": "https://www.youtube.com/embed/BQNCfhOIEDE",
+        "duration": "0:30",
+        "views": "132K",
+        "comments": "31",
+        "engagement": "5.4%"
+      },
+      {
+        "id": "devi-3",
+        "title": "Visceral Fat",
+        "category": "@devi_lifestyle_coach",
+        "videoUrl": "https://www.youtube.com/embed/oCVbOvPsKTQ",
+        "duration": "0:30",
+        "views": "214K",
+        "comments": "58",
+        "engagement": "7.2%"
+      },
+      {
+        "id": "hemali-1",
+        "title": "4 Phase Fat Loss",
+        "category": "@hemali_kevalia24",
+        "videoUrl": "https://www.youtube.com/embed/WsGRXmX0aL8",
+        "duration": "0:30",
+        "views": "96K",
+        "comments": "24",
+        "engagement": "4.9%"
+      },
+      {
+        "id": "hemali-2",
+        "title": "Emotional Eating",
+        "category": "@hemali_kevalia24",
+        "videoUrl": "https://www.youtube.com/embed/douDI3_y4yQ",
+        "duration": "0:30",
+        "views": "118K",
+        "comments": "37",
+        "engagement": "6.1%"
+      },
+      {
+        "id": "hemali-3",
+        "title": "Busy People Fat Loss",
+        "category": "@hemali_kevalia24",
+        "videoUrl": "https://www.youtube.com/embed/A-IGY5ll0Ok",
+        "duration": "0:30",
+        "views": "154K",
+        "comments": "45",
+        "engagement": "7.8%"
+      },
+      {
+        "id": "mithun-1",
+        "title": "New Year's Special",
+        "category": "@gofitness24_",
+        "videoUrl": "https://www.youtube.com/embed/gMJ5q7EV6Pk",
+        "duration": "0:30",
+        "views": "82K",
+        "comments": "19",
+        "engagement": "3.7%"
+      },
+      {
+        "id": "mithun-2",
+        "title": "Fullness vs Satisfaction",
+        "category": "@gofitness24_",
+        "videoUrl": "https://www.youtube.com/embed/GOtKGDL10uA",
+        "duration": "0:30",
+        "views": "127K",
+        "comments": "34",
+        "engagement": "5.6%"
+      },
+      {
+        "id": "mithun-3",
+        "title": "Hidden Sugar Traps",
+        "category": "@gofitness24_",
+        "videoUrl": "https://www.youtube.com/embed/-7q0XCPu20M",
+        "duration": "0:30",
+        "views": "143K",
+        "comments": "29",
+        "engagement": "6.4%"
+      },
+      {
+        "id": "krish-1",
+        "title": "Tech Tips You Need",
+        "category": "@krish.computer",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4",
+        "duration": "0:28",
+        "views": "41K",
+        "comments": "12",
+        "engagement": "3.2%"
+      },
+      {
+        "id": "krish-2",
+        "title": "Computer Basics",
+        "category": "@krish.computer",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-in-a-coffeeshop-41617-large.mp4",
+        "duration": "0:40",
+        "views": "53K",
+        "comments": "16",
+        "engagement": "4.1%"
+      },
+      {
+        "id": "krish-3",
+        "title": "Digital Skills for Everyone",
+        "category": "@krish.computer",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-hands-typing-on-laptop-keyboard-41612-large.mp4",
+        "duration": "0:35",
+        "views": "68K",
+        "comments": "21",
+        "engagement": "4.7%"
+      },
+      {
+        "id": "pushti-1",
+        "title": "Creative Day Plan",
+        "category": "@pushti.shah",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-laptop-in-living-room-41697-large.mp4",
+        "duration": "0:26",
+        "views": "72K",
+        "comments": "18",
+        "engagement": "5.1%"
+      },
+      {
+        "id": "pushti-2",
+        "title": "Studio Setup",
+        "category": "@pushti.shah",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4",
+        "duration": "0:32",
+        "views": "89K",
+        "comments": "27",
+        "engagement": "6.3%"
+      },
+      {
+        "id": "pushti-3",
+        "title": "Brand Shoot BTS",
+        "category": "@pushti.shah",
+        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-girl-in-sunglasses-smiling-41619-large.mp4",
+        "duration": "0:29",
+        "views": "104K",
+        "comments": "33",
+        "engagement": "7.0%"
+      }
+    ],
+    "processEyebrow": "The Workflow",
+    "processHeadline": "Our [SMM Growth] Pipeline",
+    "processBody": "A structured, end-to-end execution system engineered to build authority and grow your community consistently.",
+    "processSteps": [
+      {
+        "step": "01",
+        "title": "Audit & Strategy",
+        "desc": "We analyze your current profile performance, identify target content pillars, and define your unique visual style guide and brand tone."
+      },
+      {
+        "step": "02",
+        "title": "Curation & Scripting",
+        "desc": "We map out your posting calendar, write high-engagement hooks and scripts for Reels, and select trending audio aligned with your niche."
+      },
+      {
+        "step": "03",
+        "title": "Design & Publishing",
+        "desc": "We build eye-catching cover templates, write optimized captions and hashtags, and schedule posts for peak engagement hours."
+      },
+      {
+        "step": "04",
+        "title": "Community & Analysis",
+        "desc": "We monitor viewer feedback, respond strategically to comments, and analyze performance metrics to continuously scale organic reach."
+      }
+    ],
+    "pillarsHeadline": "Our Growth Execution Pillars",
+    "pillars": [
+      {
+        "num": "01",
+        "title": "Strategy & Positioning",
+        "body": "We define a clear voice and visual identity that sets you apart in the algorithm and builds trust with your target audience."
+      },
+      {
+        "num": "02",
+        "title": "Content Creation & Curation",
+        "body": "We produce high-quality, relevant content that speaks directly to your ideal customer's pain points and desires."
+      },
+      {
+        "num": "03",
+        "title": "Community Engagement",
+        "body": "We actively foster relationships with your followers, turning passive scrollers into loyal brand advocates through genuine interaction."
+      }
+    ],
+    "metricsBadge": "Live Social Performance",
+    "metricsHeadline": "Organic Growth Metrics",
+    "metricsBody": "Live performance signals from managed social profiles, tracking audience growth, reach, engagement, and profile intent.",
+    "metrics": [
+      {
+        "label": "Monthly Reach",
+        "value": "143K",
+        "trend": "+38% audience lift"
+      },
+      {
+        "label": "Engagement Rate",
+        "value": "6.4%",
+        "trend": "Above profile baseline"
+      },
+      {
+        "label": "Profile Visits",
+        "value": "15.6K",
+        "trend": "High-intent traffic"
+      },
+      {
+        "label": "Follower Growth",
+        "value": "+14.2%",
+        "trend": "90-day growth trend"
+      }
+    ]
+  },
+  "metaAds": {
+    "badge": "Performance Marketing",
+    "headline": "High-ROI Meta Ads Engineered for [Customer Acquisition].",
+    "emphasis": "Customer Acquisition",
+    "lead": "We design, build, and optimize Facebook and Instagram ad campaigns. Through creative variance testing and customer psychology copy, we scale return on ad spend.",
+    "images": {
+      "hero": "/assets/service-images/meta-ads/hero.png",
+      "cta": "/assets/service-images/meta-ads/cta.png"
+    },
+    "ctaPrimary": "Start scaling ads",
+    "ctaSecondary": "Explore Campaigns",
+    "liveBadge": "Live Performance",
+    "liveHeadline": "Our Active Campaign Dashboard",
+    "liveBody": "Real numbers from our active ad accounts, updated in real-time across client funnels.",
+    "liveMetrics": [
+      {
+        "label": "Average ROAS",
+        "value": "4.8x",
+        "trend": "+1.2x vs industry"
+      },
+      {
+        "label": "Leads Generated",
+        "value": "1,450+",
+        "trend": "Last 30 Days"
+      },
+      {
+        "label": "Cost Per Lead",
+        "value": "$12.50",
+        "trend": "-8% lower CPA"
+      },
+      {
+        "label": "Total Spend Managed",
+        "value": "$18.4K",
+        "trend": "Monthly Avg"
+      }
+    ],
+    "campaignsEyebrow": "Campaign Logs",
+    "campaignsHeadline": "Strategic [Meta Ad Campaigns]",
+    "campaignsBody": "An inside look at the campaigns we run, showing target audiences, direct objectives, and creative formats.",
+    "campaigns": [
+      {
+        "title": "High-Intent Wellness Lead Generation",
+        "objective": "Lead Generation",
+        "audience": "Wellness & Preventive Health interests (Ages 28–54, India)",
+        "creatives": "Dynamic UGC Hook Videos + Carousel testimonial cards",
+        "desc": "Focused on acquiring high-quality consultations. We structured the hook copy to address back-pain and stress concerns directly.",
+        "leads": "1,240",
+        "cpl": "₹2.80",
+        "roas": "3.8x"
+      },
+      {
+        "title": "Scale E-commerce Fitness Subscriptions",
+        "objective": "Sales / Direct Purchase",
+        "audience": "Active gym-goers, workout gear buyers (Lookalikes 2%-5%)",
+        "creatives": "Product closeups, high-contrast text overlays, fast-cut B-roll",
+        "desc": "Focused on direct checkouts. We tested 5 creative hooks in parallel to identify the most cost-efficient scaling avenue.",
+        "leads": "1,240",
+        "cpl": "₹3.52",
+        "roas": "5.4x"
+      }
+    ],
+    "processEyebrow": "Our Workflow",
+    "processHeadline": "Our [Meta Ads] Execution Framework",
+    "processBody": "A proven 4-step system for launching, testing, and scaling high-performance paid campaigns.",
+    "processSteps": [
+      {
+        "step": "01",
+        "title": "Campaign Strategy & Setup",
+        "desc": "We research your audience, define conversion objectives, and build the campaign architecture — campaigns, ad sets, and targeting layers."
+      },
+      {
+        "step": "02",
+        "title": "Creative Production",
+        "desc": "We design scroll-stopping static and video creatives with direct response copy built to address objections and trigger immediate action."
+      },
+      {
+        "step": "03",
+        "title": "Launch & A/B Testing",
+        "desc": "We split-test multiple creative angles and audiences simultaneously to identify the highest-performing hooks within the first 72 hours."
+      },
+      {
+        "step": "04",
+        "title": "Scale & Optimize",
+        "desc": "We scale winning ad sets, kill underperformers, and continuously refine targeting, copy, and bid strategies to improve ROAS over time."
+      }
+    ],
+    "pillarsHeadline": "The Performance Ad System",
+    "pillars": [
+      {
+        "num": "01",
+        "title": "Creative Testing Sprints",
+        "body": "We test multiple visual angles, hooks, and static designs rapidly to identify and scale winners early."
+      },
+      {
+        "num": "02",
+        "title": "Direct Response Copywriting",
+        "body": "We craft copy that addresses customer pain points, answers objections, and triggers actions without looking generic."
+      },
+      {
+        "num": "03",
+        "title": "Funnel Optimization",
+        "body": "We audit click trails from the ad directly to the landing page, fixing leak points to protect your cost per acquisition."
+      }
+    ],
+    "resultsBadge": "Campaign Performance Metrics",
+    "resultsHeadline": "Leads & ROAS Achievements",
+    "resultsBody": "Direct advertising results captured from scaling performance spends across active client funnels.",
+    "results": [
+      {
+        "label": "Leads Generated",
+        "value": "2,480",
+        "trend": "+180% volume lift"
+      },
+      {
+        "label": "Average ROAS",
+        "value": "4.6x",
+        "trend": "Baseline ROAS: 1.8x"
+      },
+      {
+        "label": "Cost per Lead (CPL)",
+        "value": "₹3.14",
+        "trend": "-32% CPA reduction"
+      },
+      {
+        "label": "Ad Revenue Return",
+        "value": "₹38.5L",
+        "trend": "On active runs"
+      }
+    ]
+  },
+  "websiteDev": {
+    "badge": "Web Development",
+    "headline": "Websites Built to [Convert Visitors] into Customers.",
+    "emphasis": "Convert Visitors",
+    "lead": "We design and code high-speed, conversion-focused websites and landing pages that turn your traffic into leads, calls, and sales.",
+    "images": {
+      "hero": "/assets/service-images/website-development/hero.png",
+      "cta": "/assets/service-images/website-development/cta.png"
+    },
+    "ctaPrimary": "Start website project",
+    "ctaSecondary": "View Site Examples",
+    "sitesEyebrow": "Live Sites",
+    "sitesHeadline": "Live Website Showcase",
+    "sitesBody": "A selection of high-performance websites we have designed, developed, and launched for clients.",
+    "sites": [
+      {
+        "id": "loogaroo",
+        "title": "Loogaroo",
+        "role": "E-Commerce Brand",
+        "desc": "A bold, conversion-focused e-commerce site with fast load times, clean product layouts, and mobile-first design.",
+        "url": "https://loogaroo.in/",
+        "image": "/assets/art/web-showcase-01.png",
+        "metrics": [
+          { "label": "Load Time", "value": "0.9s" },
+          { "label": "Conversion", "value": "4.6%" }
+        ]
+      },
+      {
+        "id": "krish-portfolio",
+        "title": "Krish Portfolio",
+        "role": "Personal Portfolio",
+        "desc": "A premium personal brand portfolio with smooth scroll effects, minimal aesthetics, and high visual impact.",
+        "url": "https://www.krishchhatrala.live/",
+        "image": "/assets/art/web-showcase-02.png",
+        "metrics": [
+          { "label": "Load Time", "value": "0.8s" },
+          { "label": "Perf Score", "value": "98/100" }
+        ]
+      }
+    ],
+    "featuresHeadline": "Conversion-First Development Stack",
+    "features": [
+      {
+        "num": "01",
+        "title": "Speed & Performance",
+        "body": "Sub-second load times through optimized assets, lazy loading, and clean code architecture."
+      },
+      {
+        "num": "02",
+        "title": "Responsive Design",
+        "body": "Flawless mobile, tablet, and desktop experiences with touch-friendly interactions."
+      },
+      {
+        "num": "03",
+        "title": "SEO Foundation",
+        "body": "Semantic HTML, structured data, and meta optimization built in from day one."
+      }
+    ],
+    "processEyebrow": "The Workflow",
+    "processHeadline": "Our [Web Development] Process",
+    "processBody": "From wireframes to launch, we build sites that balance brand aesthetics with conversion mechanics.",
+    "processSteps": [
+      {
+        "step": "01",
+        "title": "Discovery & Wireframing",
+        "desc": "We map your user journey, define conversion goals, and create low-fidelity wireframes to establish the site structure."
+      },
+      {
+        "step": "02",
+        "title": "Visual Design",
+        "desc": "We craft high-fidelity designs with your brand guidelines, typography, and color systems for final approval."
+      },
+      {
+        "step": "03",
+        "title": "Development & CMS",
+        "desc": "We code the frontend in React, integrate your preferred CMS, and build any custom functionality required."
+      },
+      {
+        "step": "04",
+        "title": "Testing & Launch",
+        "desc": "We test across devices and browsers, optimize Core Web Vitals, and deploy to your hosting environment."
+      }
+    ],
+    "metricsBadge": "Performance Snapshot",
+    "metricsHeadline": "Live Website Metrics",
+    "metricsBody": "Real performance data from websites we have built and currently maintain.",
+    "metrics": [
+      {
+        "label": "Avg Load Time",
+        "value": "0.9s",
+        "trend": "Core Web Vitals pass"
+      },
+      {
+        "label": "Conversion Rate",
+        "value": "4.8%",
+        "trend": "Lead form submissions"
+      },
+      {
+        "label": "Mobile Score",
+        "value": "98/100",
+        "trend": "PageSpeed Insights"
+      },
+      {
+        "label": "Uptime",
+        "value": "99.9%",
+        "trend": "Annual average"
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Work",
+    "headline": "Our curated [Portfolio].",
+    "emphasis": "Portfolio",
+    "panelTitle": "What we build",
+    "panelMetric": "4 growth engines",
+    "panelBody": "Video, social, ads, and websites shaped into one clean system for visibility, trust, and conversions.",
+    "supportTitle": "Why it works",
+    "supportMetric": "Strategy first",
+    "supportBody": "Every asset is engineered around your audience and goals — built to drive real visibility, engagement, and sales.",
+    "filters": [
+      "All",
+      "Video Editing",
+      "Social Media",
+      "Meta Ads",
+      "Website"
+    ],
+    "items": [
+      {
+        "title": "Scroll-Stopping Video Editing",
+        "category": "Video Editing",
+        "body": "Dynamic short-form edits designed with strong hooks and high visual retention.",
+        "image": "/assets/work/work-01.png"
+      },
+      {
+        "title": "Social Media",
+        "category": "Social Media",
+        "body": "Complete content calendars, custom graphics, and copy for consistent page growth.",
+        "image": "/assets/work/work-02.png"
+      },
+      {
+        "title": "High-Converting Meta Ads",
+        "category": "Meta Ads",
+        "body": "A/B creative testing, performance copy, and targeted campaigns that scale ROI.",
+        "image": "/assets/work/work-04.png"
+      },
+      {
+        "title": "Conversion-Focused Websites",
+        "category": "Website",
+        "body": "Clean, lightning-fast landing pages built to turn traffic into active inquiries.",
+        "image": "/assets/work/work-05.png"
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Process",
+    "headline": "From raw ideas to premium [Content Systems] that keep showing up.",
+    "emphasis": "Content Systems",
+    "subhead": "Every stage is strategic, visual, and built for consistent execution.",
+    "steps": [
+      {
+        "tag": "Clarity",
+        "title": "Discover",
+        "body": "We understand your brand, offer, audience, competitors, content gaps, and the platforms that matter most.",
+        "visual": "research"
+      },
+      {
+        "tag": "Strategy",
+        "title": "Plan",
+        "body": "We map hooks, content pillars, posting rhythm, shot lists, ad creatives, page wireframes, and monthly creative direction.",
+        "visual": "planning"
+      },
+      {
+        "tag": "Creation",
+        "title": "Produce",
+        "body": "We edit video content, shape captions, build carousels, refine ad assets, and package content for publishing.",
+        "visual": "produce"
+      },
+      {
+        "tag": "Growth",
+        "title": "Improve",
+        "body": "We track engagement signals, follower growth, watch time, ROAS, and conversion metrics to improve the next round.",
+        "visual": "refine"
+      }
+    ]
+  },
+  "proof": {
+    "eyebrow": "Why us",
+    "headline": "Premium [Creative Quality] without the slow, expensive agency process.",
+    "emphasis": "Creative Quality",
+    "body": "You get the taste level of a premium studio, the speed of a small team, and the practical focus of a growth partner who cares about real engagement.",
+    "points": [
+      {
+        "tag": "Premium",
+        "title": "High-end look, practical pricing",
+        "body": "Your content looks polished and intentional without making your marketing budget feel heavy."
+      },
+      {
+        "tag": "Speed",
+        "title": "Fast creative loops",
+        "body": "Hooks, cuts, captions, and web designs move quickly from idea to publish-ready assets."
+      },
+      {
+        "tag": "Growth",
+        "title": "Engagement-led decisions",
+        "body": "We use audience response, watch time, and conversion statistics to make the next creative cycle stronger."
+      },
+      {
+        "tag": "System",
+        "title": "One creative partner",
+        "body": "Video editing, social media, Meta ads, and website development can all move under one roof."
+      }
+    ],
+    "metrics": [
+      {
+        "value": "3x",
+        "label": "Engagement Lift Potential"
+      },
+      {
+        "value": "48hr",
+        "label": "Fast Content Sprints"
+      },
+      {
+        "value": "Full-stack",
+        "label": "Creative Support"
+      }
+    ]
+  },
+  "stories": {
+    "eyebrow": "Client stories",
+    "quote": "[K For Kreative] gave our brand a sharper visual presence and a more consistent content system. The work felt premium, quick, and easy to approve.",
+    "author": "Mehul Chhatrala",
+    "role": "Owner",
+    "body": "Trusted by founders and small teams building visibility through video editing, social media management, Meta ads, and website development.",
+    "linkLabel": "Start your project",
+    "clients": [
+      "Devi Bar",
+      "Hemali Kevalia",
+      "Mithun Bar",
+      "Krish Computer",
+      "Sparsh Beauty Salon",
+      "Pushti Shah"
+    ],
+    "testimonials": [
+      {
+        "name": "Mehul Chhatrala",
+        "role": "Owner",
+        "quote": "K For Kreative handles our social media and SEO with creativity, consistency, and care. Their work feels personal, polished, and focused on real growth."
+      },
+      {
+        "name": "Sposh Beauty Salon Team",
+        "role": "Owner",
+        "quote": "K For Kreative redesigned how Sposh Beauty Salon shows up online. Their creative execution was clean, the turnaround was fast, and the results were easy to see."
+      },
+      {
+        "name": "Mithun Bar",
+        "role": "Founder, GoFitness24",
+        "quote": "They built our entire content strategy from zero and helped GoFitness24 grow to 24K+ followers. Every reel feels on-brand, high-energy, and built for real reach."
+      },
+      {
+        "name": "Hemali Kevalia",
+        "role": "Owner",
+        "quote": "K For Kreative improved the way our brand shows up online. Their ideas are fresh, their execution is clean, and the results have been easy to see."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Start a conversation",
+    "headline": "Ready to make your brand look [Premium] and show up [Consistently]?",
+    "emphasis": "Premium",
+    "body": "Tell us what you are building. We will reply with the clearest next step for video editing, social media management, Meta ads, or website development.",
+    "ctaPrimary": "Let's Talk",
+    "ctaSecondary": "Email Us",
+    "email": "info@kforkreative.in"
+  },
+  "footer": {
+    "copyright": "K For Kreative. All rights reserved.",
+    "socials": [
+      {
+        "label": "Portfolio",
+        "href": "https://www.krishchhatrala.live/",
+        "icon": "portfolio"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/kforkreative.in/",
+        "icon": "instagram"
+      },
+      {
+        "label": "WhatsApp",
+        "href": "https://wa.me/919724690118",
+        "icon": "whatsapp"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/company/kforkreative/",
+        "icon": "linkedin"
+      },
+      {
+        "label": "Email",
+        "href": "mailto:info@kforkreative.in",
+        "icon": "email"
+      }
+    ]
+  },
+  "form": {
+    "label": "Inquiry",
+    "title": "Tell us about your project.",
+    "emphasis": "project",
+    "lead": "Share the basics. We will reply with the clearest next step.",
+    "subject": "New K For Kreative project inquiry",
+    "fromName": "K For Kreative Website",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "projectLabel": "Project",
+    "briefLabel": "Brief",
+    "briefPlaceholder": "What are you building?",
+    "submitLabel": "Send Inquiry",
+    "projectOptions": [
+      "Video Editing",
+      "Social Media Management",
+      "Meta Ads",
+      "Website Development"
+    ]
+  }
+}
