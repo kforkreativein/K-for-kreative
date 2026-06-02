@@ -650,6 +650,55 @@ function StoriesSection({ content, onOpenContact }) {
   )
 }
 
+const faqItems = [
+  {
+    q: 'What services does K For Kreative offer?',
+    a: 'K For Kreative offers four core creative services: short-form video editing for Instagram Reels, YouTube Shorts, and podcasts; social media management with content strategy and scheduling; Meta ads management for Facebook and Instagram campaigns; and conversion-focused website design and development. Each service is built to give growing brands a polished, consistent presence that performs.'
+  },
+  {
+    q: 'Who is K For Kreative the right fit for?',
+    a: 'Our services are built for small business owners, health and wellness coaches, personal brands, e-commerce stores, and service providers who want premium creative output without an in-house team. We work best with founders who are serious about brand consistency and ready to commit to a monthly creative partnership.'
+  },
+  {
+    q: 'How does the onboarding process work?',
+    a: 'We start with a short discovery call to understand your brand, goals, audience, and existing content. From there we build a tailored plan covering deliverable formats, posting cadence, and brand guidelines. Most clients are fully onboarded within one week. Use the contact form on this page to send us your project brief and get started.'
+  },
+  {
+    q: 'What types of videos does K For Kreative edit?',
+    a: 'We specialise in short-form content — Instagram Reels, YouTube Shorts, TikTok clips, and podcast highlight reels. Our editing covers hook writing, pacing, sound design, motion captions, B-roll integration, and platform-optimised exports. Whether you send raw footage or a talking-head interview, we shape it into a scroll-stopping final cut.'
+  },
+  {
+    q: 'How long does it take to see results from social media management?',
+    a: 'Most clients see meaningful engagement improvements within 60 to 90 days of consistent, on-brand posting. Organic growth on Instagram and LinkedIn compounds over time — the more consistently premium content goes live, the faster the algorithm builds reach. We track performance monthly and refine strategy based on real data.'
+  },
+  {
+    q: 'Does K For Kreative work with businesses outside India?',
+    a: 'Yes. While we are based in India, we regularly work with clients across the UK, UAE, Australia, and North America. Our workflows are fully remote and async-friendly. All client communication happens via WhatsApp, email, and scheduled video calls — timezone differences are never a blocker.'
+  }
+]
+
+function FAQSection({ content }) {
+  return (
+    <section className="section faq-section" id="faq" data-section-id="faq" data-scroll-section>
+      <div className="section-inner faq-grid">
+        <div className="faq-copy">
+          <SectionLabel eyebrow="Common questions" />
+          <h2 data-reveal><BracketText text="Frequently Asked [Questions]" /></h2>
+          <div className="faq-list" data-reveal>
+            {faqItems.map((item) => (
+              <article className="faq-item" key={item.q}>
+                <h3>{item.q}</h3>
+                <p>{item.a}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <ArtPanel src={content.sections.contact} className="faq-art focus-right" parallax={0.018} parallaxMax={12} />
+      </div>
+    </section>
+  )
+}
+
 export function ContactFormModal({ onClose, content }) {
   const [status, setStatus] = useState('idle')
 
@@ -823,6 +872,23 @@ function MarketingSite() {
   useHashScroll()
   useNavbarShrink()
 
+  useEffect(() => {
+    const schema = document.createElement('script')
+    schema.type = 'application/ld+json'
+    schema.id = 'faq-schema'
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a }
+      }))
+    })
+    document.head.appendChild(schema)
+    return () => { document.getElementById('faq-schema')?.remove() }
+  }, [])
+
   return (
     <>
       <div className="paper-grain" aria-hidden="true" />
@@ -841,6 +907,7 @@ function MarketingSite() {
         <ProcessSection content={content} onOpenContact={() => setIsFormOpen(true)} />
         <ProofSection content={content} onOpenContact={() => setIsFormOpen(true)} />
         <StoriesSection content={content} onOpenContact={() => setIsFormOpen(true)} />
+        <FAQSection content={content} />
         <ContactSection content={content} onOpenContact={() => setIsFormOpen(true)} />
       </main>
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
