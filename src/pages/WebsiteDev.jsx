@@ -7,7 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
-  ContactSection
+  ContactSection,
+  upsertMeta,
+  upsertCanonical
 } from '../App.jsx'
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
@@ -33,6 +35,35 @@ export default function WebsiteDev() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const title = 'Website Development | K For Kreative'
+    const description = 'Conversion-focused website design and development for personal brands and service businesses. Fast, premium websites built to turn traffic into leads by K For Kreative.'
+    const canonical = 'https://kforkreative.in/services/website'
+    document.title = title
+    upsertMeta('meta[name="description"]', 'name', 'description', description)
+    upsertMeta('meta[property="og:title"]', 'property', 'og:title', title)
+    upsertMeta('meta[property="og:description"]', 'property', 'og:description', description)
+    upsertMeta('meta[property="og:url"]', 'property', 'og:url', canonical)
+    upsertMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title)
+    upsertMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    upsertCanonical(canonical)
+    const schema = document.createElement('script')
+    schema.type = 'application/ld+json'
+    schema.id = 'service-schema'
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Website Development',
+      provider: { '@type': 'Organization', name: 'K For Kreative', url: 'https://kforkreative.in' },
+      description: description,
+      url: canonical,
+      areaServed: 'IN',
+      serviceType: 'Web Development'
+    })
+    document.head.appendChild(schema)
+    return () => { document.getElementById('service-schema')?.remove() }
   }, [])
 
   const showcaseSites = (pageContent.sites || [

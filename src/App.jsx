@@ -38,7 +38,7 @@ const processVisualImages = {
   refine: '/assets/process/process-04.png'
 }
 
-function upsertMeta(selector, attributeName, attributeValue, content) {
+export function upsertMeta(selector, attributeName, attributeValue, content) {
   let tag = document.querySelector(selector)
   if (!tag) {
     tag = document.createElement('meta')
@@ -49,7 +49,7 @@ function upsertMeta(selector, attributeName, attributeValue, content) {
   tag.setAttribute('content', content || '')
 }
 
-function upsertCanonical(url) {
+export function upsertCanonical(url) {
   let tag = document.querySelector('link[rel="canonical"]')
   if (!tag) {
     tag = document.createElement('link')
@@ -558,7 +558,7 @@ function WorkSection({ content }) {
               className="project-card interactive-card"
               style={{ '--delay': `${index * 70}ms` }}
             >
-              <div className="project-thumb"><img src={item.image} alt="" loading="lazy" /></div>
+              <div className="project-thumb"><img src={item.image} alt={item.title} loading="lazy" /></div>
               <div className="project-meta"><span>{item.category}</span><h3>{item.title}</h3><p>{item.body}</p></div>
               <span className="project-card-arrow" aria-hidden="true"><ArrowIcon /></span>
             </Link>

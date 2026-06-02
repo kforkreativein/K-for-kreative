@@ -7,7 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
-  ContactSection
+  ContactSection,
+  upsertMeta,
+  upsertCanonical
 } from '../App.jsx'
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
@@ -32,6 +34,35 @@ export default function MetaAds() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const title = 'Meta Ads Management | K For Kreative'
+    const description = 'Performance Meta ads (Facebook and Instagram) for small businesses and personal brands. Campaign strategy, creative production, targeting, and optimisation by K For Kreative.'
+    const canonical = 'https://kforkreative.in/services/meta-ads'
+    document.title = title
+    upsertMeta('meta[name="description"]', 'name', 'description', description)
+    upsertMeta('meta[property="og:title"]', 'property', 'og:title', title)
+    upsertMeta('meta[property="og:description"]', 'property', 'og:description', description)
+    upsertMeta('meta[property="og:url"]', 'property', 'og:url', canonical)
+    upsertMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title)
+    upsertMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    upsertCanonical(canonical)
+    const schema = document.createElement('script')
+    schema.type = 'application/ld+json'
+    schema.id = 'service-schema'
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Meta Ads Management',
+      provider: { '@type': 'Organization', name: 'K For Kreative', url: 'https://kforkreative.in' },
+      description: description,
+      url: canonical,
+      areaServed: 'IN',
+      serviceType: 'Digital Advertising'
+    })
+    document.head.appendChild(schema)
+    return () => { document.getElementById('service-schema')?.remove() }
   }, [])
 
   const campaigns = pageContent.campaigns || [

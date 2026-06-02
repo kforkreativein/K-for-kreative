@@ -7,7 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
-  ContactSection
+  ContactSection,
+  upsertMeta,
+  upsertCanonical
 } from '../App.jsx'
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
@@ -90,6 +92,35 @@ export default function SocialMedia() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const title = 'Social Media Management | K For Kreative'
+    const description = 'Monthly social media management for small businesses and personal brands. Content creation, scheduling, and Instagram and LinkedIn account management by K For Kreative.'
+    const canonical = 'https://kforkreative.in/services/social-media-management'
+    document.title = title
+    upsertMeta('meta[name="description"]', 'name', 'description', description)
+    upsertMeta('meta[property="og:title"]', 'property', 'og:title', title)
+    upsertMeta('meta[property="og:description"]', 'property', 'og:description', description)
+    upsertMeta('meta[property="og:url"]', 'property', 'og:url', canonical)
+    upsertMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title)
+    upsertMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    upsertCanonical(canonical)
+    const schema = document.createElement('script')
+    schema.type = 'application/ld+json'
+    schema.id = 'service-schema'
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Social Media Management',
+      provider: { '@type': 'Organization', name: 'K For Kreative', url: 'https://kforkreative.in' },
+      description: description,
+      url: canonical,
+      areaServed: 'IN',
+      serviceType: 'Social Media Management'
+    })
+    document.head.appendChild(schema)
+    return () => { document.getElementById('service-schema')?.remove() }
   }, [])
 
   const accounts = pageContent.accounts || [
