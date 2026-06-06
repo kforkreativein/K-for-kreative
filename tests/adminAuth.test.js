@@ -15,6 +15,10 @@ test('verifyAdminToken rejects invalid tokens', () => {
   assert.equal(verifyAdminToken('not-a-token', 'test-secret'), null)
 })
 
-test('getJwtSecret fails closed when JWT_SECRET is missing', () => {
-  assert.throws(() => getJwtSecret({}), /JWT_SECRET is not configured/)
+test('getJwtSecret uses a local fallback in development', () => {
+  assert.equal(getJwtSecret({ NODE_ENV: 'development' }), 'kfk-local-dev-secret')
+})
+
+test('getJwtSecret fails closed in production when JWT_SECRET is missing', () => {
+  assert.throws(() => getJwtSecret({ NODE_ENV: 'production' }), /JWT_SECRET is not configured/)
 })
