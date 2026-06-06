@@ -19,6 +19,17 @@ test('getJwtSecret uses a local fallback in development', () => {
   assert.equal(getJwtSecret({ NODE_ENV: 'development' }), 'kfk-local-dev-secret')
 })
 
-test('getJwtSecret fails closed in production when JWT_SECRET is missing', () => {
+test('getJwtSecret uses admin credentials as a production fallback', () => {
+  assert.equal(
+    getJwtSecret({
+      ADMIN_USERNAME: 'admin',
+      ADMIN_PASSWORD: 'password',
+      NODE_ENV: 'production',
+    }),
+    'kfk-admin-secret:admin:password',
+  )
+})
+
+test('getJwtSecret fails closed in production when no signing source is configured', () => {
   assert.throws(() => getJwtSecret({ NODE_ENV: 'production' }), /JWT_SECRET is not configured/)
 })
