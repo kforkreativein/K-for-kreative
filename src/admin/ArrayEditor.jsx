@@ -8,7 +8,7 @@ function cloneTemplate(value) {
   return ''
 }
 
-export default function ArrayEditor({ label, value = [], onChange }) {
+export default function ArrayEditor({ label, value = [], onChange, authToken = '', sectionKey = '' }) {
   const addItem = () => {
     const template = value[0] ? cloneTemplate(value[0]) : ''
     onChange([...value, template])
@@ -51,7 +51,12 @@ export default function ArrayEditor({ label, value = [], onChange }) {
           </div>
 
           {item && typeof item === 'object' && !Array.isArray(item) ? (
-            <SectionEditor value={item} onChange={(nextValue) => updateItem(index, nextValue)} />
+            <SectionEditor
+              value={item}
+              onChange={(nextValue) => updateItem(index, nextValue)}
+              authToken={authToken}
+              sectionKey={sectionKey}
+            />
           ) : (
             <input value={item ?? ''} onChange={(event) => updateItem(index, event.target.value)} />
           )}

@@ -2,6 +2,16 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/index.js" },
+    { "source": "/shopify-ecommerce-creative-marketing-agency-india", "destination": "/shopify-ecommerce-creative-marketing-agency-india/index.html" },
+    { "source": "/shopify-ecommerce-creative-marketing-agency-india/", "destination": "/shopify-ecommerce-creative-marketing-agency-india/index.html" },
+    { "source": "/affordable-social-media-management-for-startups-india", "destination": "/affordable-social-media-management-for-startups-india/index.html" },
+    { "source": "/affordable-social-media-management-for-startups-india/", "destination": "/affordable-social-media-management-for-startups-india/index.html" },
+    { "source": "/podcast-video-editing-services-comparison", "destination": "/podcast-video-editing-services-comparison/index.html" },
+    { "source": "/podcast-video-editing-services-comparison/", "destination": "/podcast-video-editing-services-comparison/index.html" },
+    { "source": "/improve-instagram-reels-engagement-brand", "destination": "/improve-instagram-reels-engagement-brand/index.html" },
+    { "source": "/improve-instagram-reels-engagement-brand/", "destination": "/improve-instagram-reels-engagement-brand/index.html" },
+    { "source": "/best-social-media-marketing-agency-small-business-india", "destination": "/best-social-media-marketing-agency-small-business-india/index.html" },
+    { "source": "/best-social-media-marketing-agency-small-business-india/", "destination": "/best-social-media-marketing-agency-small-business-india/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

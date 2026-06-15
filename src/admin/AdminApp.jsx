@@ -29,6 +29,7 @@ const SECTION_LABELS = {
   process: 'Process',
   proof: 'Proof',
   stories: 'Stories',
+  faq: 'FAQ',
   contact: 'Contact',
   footer: 'Footer',
   form: 'Lead Form',

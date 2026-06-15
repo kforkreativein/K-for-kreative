@@ -21,10 +21,19 @@ function withEnv(values, callback) {
 test('vercel config routes api requests before the spa fallback', async () => {
   const config = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'))
 
-  assert.deepEqual(config.rewrites, [
-    { source: '/api/:path*', destination: '/api/index.js' },
-    { source: '/(.*)', destination: '/index.html' },
-  ])
+  assert.equal(config.rewrites[0].source, '/api/:path*')
+  assert.equal(config.rewrites[0].destination, '/api/index.js')
+  assert.equal(config.rewrites.at(-1).source, '/(.*)')
+  assert.equal(config.rewrites.at(-1).destination, '/index.html')
+
+  const answerPageRewrite = config.rewrites.find(
+    (rewrite) => rewrite.source === '/shopify-ecommerce-creative-marketing-agency-india',
+  )
+
+  assert.deepEqual(answerPageRewrite, {
+    source: '/shopify-ecommerce-creative-marketing-agency-india',
+    destination: '/shopify-ecommerce-creative-marketing-agency-india/index.html',
+  })
 })
 
 test('vercel api function handles admin login', async () => {

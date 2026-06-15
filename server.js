@@ -38,7 +38,7 @@ function requireAdmin(req, res, next) {
   return next()
 }
 
-app.use(express.json({ limit: '1mb' }))
+app.use(express.json({ limit: '12mb' }))
 
 app.get('/api/content', async (_req, res, next) => {
   try {

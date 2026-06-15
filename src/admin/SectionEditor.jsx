@@ -13,6 +13,8 @@ const LONG_TEXT_KEYS = new Set([
   'supportBody',
   'panelBody',
   'briefPlaceholder',
+  'answer',
+  'question',
 ])
 
 function formatLabel(key) {
@@ -115,7 +117,7 @@ function AssetPathField({ label, value, onChange, authToken }) {
       <input value={value ?? ''} onChange={(event) => onChange(event.target.value)} placeholder="/assets/logos/color-black-crop.png" />
       <input type="file" accept="image/*,.ico" onChange={handleUpload} disabled={isUploading} />
       <small className="admin-field-hint">
-        {isUploading ? 'Uploading...' : 'Paste a path or upload a logo / favicon image.'}
+        {isUploading ? 'Uploading...' : 'Paste an asset path or upload an image.'}
       </small>
       {uploadError && <small className="admin-error">{uploadError}</small>}
     </label>
@@ -124,7 +126,7 @@ function AssetPathField({ label, value, onChange, authToken }) {
 
 export default function SectionEditor({ value, onChange, showBracketHeadline = false, authToken = '', sectionKey = '' }) {
   if (Array.isArray(value)) {
-    return <ArrayEditor label="Items" value={value} onChange={onChange} />
+    return <ArrayEditor label="Items" value={value} onChange={onChange} authToken={authToken} sectionKey={sectionKey} />
   }
 
   if (!value || typeof value !== 'object') {
@@ -172,6 +174,8 @@ export default function SectionEditor({ value, onChange, showBracketHeadline = f
               label={label}
               value={fieldValue}
               onChange={(nextValue) => onChange(updateObject(value, key, nextValue))}
+              authToken={authToken}
+              sectionKey={key}
             />
           )
         }

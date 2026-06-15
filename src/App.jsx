@@ -102,6 +102,29 @@ export function useSiteContent() {
   }, [])
 
   useEffect(() => {
+    const preloads = [
+      content.sections?.hero,
+      content.assets?.logoBlack,
+    ].filter(Boolean)
+
+    const tags = preloads.map((href) => {
+      let tag = document.querySelector(`link[rel="preload"][href="${href}"]`)
+      if (!tag) {
+        tag = document.createElement('link')
+        tag.setAttribute('rel', 'preload')
+        tag.setAttribute('as', 'image')
+        tag.setAttribute('href', href)
+        document.head.appendChild(tag)
+      }
+      return tag
+    })
+
+    return () => {
+      tags.forEach((tag) => tag.remove())
+    }
+  }, [content.sections?.hero, content.assets?.logoBlack])
+
+  useEffect(() => {
     document.title = content.meta.title
     upsertMeta('meta[name="description"]', 'name', 'description', content.meta.description)
     upsertMeta('meta[name="keywords"]', 'name', 'keywords', content.meta.keywords)
@@ -434,10 +457,19 @@ function SectionLabel({ eyebrow }) {
   )
 }
 
-export function ArtPanel({ src, className = '', caption, children, parallax = 0.08, parallaxMax }) {
+export function ArtPanel({
+  src,
+  className = '',
+  caption,
+  children,
+  parallax = 0.08,
+  parallaxMax,
+  loading = 'lazy',
+  fetchPriority = 'auto',
+}) {
   return (
     <figure className={`art-panel ${className}`} data-reveal data-parallax={parallax} data-parallax-max={parallaxMax}>
-      <img src={src} alt="" loading="lazy" />
+      <img src={src} alt="" loading={loading} decoding="async" fetchPriority={fetchPriority} />
       <div className="art-glass" aria-hidden="true" />
       {caption && <figcaption>{caption}</figcaption>}
       {children}
@@ -471,7 +503,13 @@ function HeroSection({ content, onOpenContact }) {
             {(content.hero?.stats || []).map((item) => <div className="stat" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}
           </div>
         </div>
-        <ArtPanel src={content.sections.hero} className="hero-art focus-right tall" caption={content.hero.artCaption} />
+        <ArtPanel
+          src={content.sections.hero}
+          className="hero-art focus-right tall"
+          caption={content.hero.artCaption}
+          loading="eager"
+          fetchPriority="high"
+        />
       </div>
     </section>
   )
@@ -650,50 +688,52 @@ function StoriesSection({ content, onOpenContact }) {
   )
 }
 
-const faqItems = [
-  {
-    q: 'What services does K For Kreative offer?',
-    a: 'K For Kreative offers four core creative services: short-form video editing for Instagram Reels, YouTube Shorts, and podcasts; social media management with content strategy and scheduling; Meta ads management for Facebook and Instagram campaigns; and conversion-focused website design and development. Each service is built to give growing brands a polished, consistent presence that performs.'
-  },
-  {
-    q: 'Who is K For Kreative the right fit for?',
-    a: 'Our services are built for small business owners, health and wellness coaches, personal brands, e-commerce stores, and service providers who want premium creative output without an in-house team. We work best with founders who are serious about brand consistency and ready to commit to a monthly creative partnership.'
-  },
-  {
-    q: 'How does the onboarding process work?',
-    a: 'We start with a short discovery call to understand your brand, goals, audience, and existing content. From there we build a tailored plan covering deliverable formats, posting cadence, and brand guidelines. Most clients are fully onboarded within one week. Use the contact form on this page to send us your project brief and get started.'
-  },
-  {
-    q: 'What types of videos does K For Kreative edit?',
-    a: 'We specialise in short-form content — Instagram Reels, YouTube Shorts, TikTok clips, and podcast highlight reels. Our editing covers hook writing, pacing, sound design, motion captions, B-roll integration, and platform-optimised exports. Whether you send raw footage or a talking-head interview, we shape it into a scroll-stopping final cut.'
-  },
-  {
-    q: 'How long does it take to see results from social media management?',
-    a: 'Most clients see meaningful engagement improvements within 60 to 90 days of consistent, on-brand posting. Organic growth on Instagram and LinkedIn compounds over time — the more consistently premium content goes live, the faster the algorithm builds reach. We track performance monthly and refine strategy based on real data.'
-  },
-  {
-    q: 'Does K For Kreative work with businesses outside India?',
-    a: 'Yes. While we are based in India, we regularly work with clients across the UK, UAE, Australia, and North America. Our workflows are fully remote and async-friendly. All client communication happens via WhatsApp, email, and scheduled video calls — timezone differences are never a blocker.'
-  }
-]
-
 function FAQSection({ content }) {
+  const [openIndex, setOpenIndex] = useState(0)
+  const faq = content.faq || {}
+  const items = faq.items || []
+
   return (
     <section className="section faq-section" id="faq" data-section-id="faq" data-scroll-section>
       <div className="section-inner faq-grid">
         <div className="faq-copy">
-          <SectionLabel eyebrow="Common questions" />
-          <h2 data-reveal><BracketText text="Frequently Asked [Questions]" /></h2>
+          <SectionLabel eyebrow={faq.eyebrow || 'Common questions'} />
+          <h2 data-reveal><BracketText text={faq.headline || 'Frequently Asked [Questions]'} /></h2>
           <div className="faq-list" data-reveal>
-            {faqItems.map((item) => (
-              <article className="faq-item" key={item.q}>
-                <h3>{item.q}</h3>
-                <p>{item.a}</p>
-              </article>
-            ))}
+            {items.map((item, index) => {
+              const isOpen = openIndex === index
+              const panelId = `faq-panel-${index}`
+              const buttonId = `faq-button-${index}`
+
+              return (
+                <article className={`faq-item${isOpen ? ' is-open' : ''}`} key={`${item.question}-${index}`}>
+                  <h3>
+                    <button
+                      id={buttonId}
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                    >
+                      <span>{item.question}</span>
+                      <span className="faq-toggle-icon" aria-hidden="true" />
+                    </button>
+                  </h3>
+                  <div
+                    id={panelId}
+                    className="faq-answer"
+                    role="region"
+                    aria-labelledby={buttonId}
+                    hidden={!isOpen}
+                  >
+                    <p>{item.answer}</p>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
-        <ArtPanel src={content.sections.contact} className="faq-art focus-right" parallax={0.018} parallaxMax={12} />
+        <ArtPanel src={faq.image || content.sections.contact} className="faq-art focus-right" parallax={0.018} parallaxMax={12} />
       </div>
     </section>
   )
@@ -873,21 +913,26 @@ function MarketingSite() {
   useNavbarShrink()
 
   useEffect(() => {
+    const items = content.faq?.items || []
+    if (!items.length) return undefined
+
+    document.getElementById('faq-schema')?.remove()
+
     const schema = document.createElement('script')
     schema.type = 'application/ld+json'
     schema.id = 'faq-schema'
     schema.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: faqItems.map((item) => ({
+      mainEntity: items.map((item) => ({
         '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a }
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer }
       }))
     })
     document.head.appendChild(schema)
     return () => { document.getElementById('faq-schema')?.remove() }
-  }, [])
+  }, [content.faq?.items])
 
   return (
     <>
