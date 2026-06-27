@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Navbar,
   ContactFormModal,
@@ -7,6 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
+  useTheme,
+  FloatingCTA,
+  ThemeToggle,
   ContactSection,
   upsertMeta,
   upsertCanonical
@@ -14,18 +17,53 @@ import {
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
 
+function isYoutubeUrl(url) {
+  return url.includes('youtube.com') || url.includes('youtu.be')
+}
+
+function getYtId(url) {
+  if (url.includes('/embed/')) return url.split('/embed/')[1]?.split('?')[0] ?? ''
+  const match = url.match(/(?:youtu\.be\/|v=)([\w-]{11})/)
+  return match?.[1] ?? ''
+}
+
+function buildYtEmbedSrc(videoUrl, origin) {
+  const ytId = getYtId(videoUrl)
+  const base = videoUrl.includes('/embed/') ? videoUrl.split('?')[0] : `https://www.youtube.com/embed/${ytId}`
+  const params = new URLSearchParams({
+    autoplay: '1',
+    mute: '1',
+    controls: '0',
+    enablejsapi: '1',
+    modestbranding: '1',
+    rel: '0',
+    iv_load_policy: '3',
+    disablekb: '1',
+    fs: '0',
+    playsinline: '1',
+    loop: '1',
+    playlist: ytId,
+    origin,
+  })
+  return `${base}?${params.toString()}`
+}
+
 export default function VideoEditing() {
   const content = useSiteContent()
   const pageContent = content.videoEditing || {}
   const progress = useScrollProgress()
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [playingId, setPlayingId] = useState(null)
+  const { theme, toggle: toggleTheme } = useTheme()
   const [mutedIds, setMutedIds] = useState(() => new Set())
   const [pausedIds, setPausedIds] = useState(() => new Set())
+  const [progressById, setProgressById] = useState({})
   const iframeRefs = useRef({})
+  const pausedIdsRef = useRef(pausedIds)
   const reelsRef = useRef(null)
+  const showcaseRef = useRef(null)
   const [reelsMask, setReelsMask] = useState('right-only')
   const pageImages = pageContent.images || {}
+  const ytOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://kforkreative.in'
   const ctaContent = {
     eyebrow: 'Start a video project',
     headline: 'Ready to turn raw footage into [high-retention edits]?',
@@ -87,40 +125,28 @@ export default function VideoEditing() {
     return () => { document.getElementById('service-schema')?.remove() }
   }, [])
 
-  const getYtId = (url) => url.split('/embed/')[1]?.split('?')[0] ?? ''
-
-  const sendYTCmd = (reelId, func) => {
+  const sendYTCmd = useCallback((reelId, func, args = '') => {
     const iframe = iframeRefs.current[reelId]
     if (iframe?.contentWindow) {
-      iframe.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func, args: '' }), '*'
-      )
+      iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*')
     }
-  }
+  }, [])
 
-  const toggleMute = (e, reelId) => {
-    e.stopPropagation()
-    const isMuted = mutedIds.has(reelId)
-    sendYTCmd(reelId, isMuted ? 'unMute' : 'mute')
-    setMutedIds(prev => {
-      const next = new Set(prev)
-      isMuted ? next.delete(reelId) : next.add(reelId)
-      return next
+  const startYtPlayback = useCallback((reelId) => {
+    ;[120, 500, 1200, 2500].forEach((delay) => {
+      window.setTimeout(() => {
+        if (pausedIdsRef.current.has(reelId)) return
+        sendYTCmd(reelId, 'mute')
+        sendYTCmd(reelId, 'playVideo')
+      }, delay)
     })
-  }
+  }, [sendYTCmd])
 
-  const toggleYTPause = (e, reelId) => {
-    e.stopPropagation()
-    const isPaused = pausedIds.has(reelId)
-    sendYTCmd(reelId, isPaused ? 'playVideo' : 'pauseVideo')
-    setPausedIds(prev => {
-      const next = new Set(prev)
-      isPaused ? next.delete(reelId) : next.add(reelId)
-      return next
-    })
-  }
+  useEffect(() => {
+    pausedIdsRef.current = pausedIds
+  }, [pausedIds])
 
-  const reels = pageContent.reels || [
+  const reels = useMemo(() => pageContent.reels || [
     {
       id: 'ozempic',
       title: 'Ozempic ka Sach',
@@ -201,7 +227,233 @@ export default function VideoEditing() {
       duration: '0:30',
       views: '420K'
     }
-  ]
+  ], [pageContent.reels])
+
+  const reelIdsKey = useMemo(() => reels.map((reel) => reel.id).join(','), [reels])
+
+  useEffect(() => {
+    const ytIds = reels.filter((reel) => isYoutubeUrl(reel.videoUrl)).map((reel) => reel.id)
+    setMutedIds(new Set(ytIds))
+    setPausedIds(new Set())
+    setProgressById({})
+  }, [reelIdsKey, reels])
+
+  useEffect(() => {
+    reels.forEach((reel) => {
+      if (isYoutubeUrl(reel.videoUrl)) return
+      const video = document.getElementById(`video-${reel.id}`)
+      video?.play()?.catch(() => {})
+    })
+  }, [reelIdsKey, reels])
+
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (!event.origin.endsWith('youtube.com')) return
+      let data
+      try {
+        data = JSON.parse(event.data)
+      } catch {
+        return
+      }
+
+      let reelId = null
+      for (const [id, iframe] of Object.entries(iframeRefs.current)) {
+        if (iframe?.contentWindow === event.source) {
+          reelId = id
+          break
+        }
+      }
+      if (!reelId) return
+
+      if (data.event === 'infoDelivery' && data.info) {
+        const { currentTime, duration, playerState } = data.info
+        if (typeof duration === 'number' && duration > 0 && typeof currentTime === 'number') {
+          setProgressById((prev) => ({
+            ...prev,
+            [reelId]: Math.min(100, (currentTime / duration) * 100),
+          }))
+        }
+        if (playerState === 2) {
+          setPausedIds((prev) => new Set(prev).add(reelId))
+        }
+      }
+
+      if (data.event === 'onStateChange') {
+        if (data.info === 1) {
+          setPausedIds((prev) => {
+            if (!prev.has(reelId)) return prev
+            const next = new Set(prev)
+            next.delete(reelId)
+            return next
+          })
+        } else if (data.info === 2) {
+          setPausedIds((prev) => new Set(prev).add(reelId))
+        }
+      }
+    }
+
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      reels.forEach((reel) => {
+        if (!isYoutubeUrl(reel.videoUrl) || pausedIdsRef.current.has(reel.id)) return
+        sendYTCmd(reel.id, 'getCurrentTime')
+        sendYTCmd(reel.id, 'getDuration')
+      })
+    }, 450)
+    return () => window.clearInterval(interval)
+  }, [reels, sendYTCmd])
+
+  useEffect(() => {
+    const cards = document.querySelectorAll('.video-page .reel-showcase-card[data-reel-id]')
+    if (!cards.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const reelId = entry.target.getAttribute('data-reel-id')
+          if (!reelId || pausedIdsRef.current.has(reelId)) return
+          startYtPlayback(reelId)
+        })
+      },
+      { threshold: 0.35 },
+    )
+
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [reelIdsKey, reels, startYtPlayback])
+
+  useEffect(() => {
+    const container = reelsRef.current
+    const showcase = showcaseRef.current
+    if (!container || !showcase || reels.length <= 1) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let paused = false
+    let inViewport = false
+    let resumeTimer = null
+
+    const pauseAutoScroll = () => {
+      paused = true
+      if (resumeTimer) window.clearTimeout(resumeTimer)
+    }
+
+    const resumeAutoScroll = () => {
+      if (inViewport) paused = false
+    }
+
+    const resumeAutoScrollLater = () => {
+      if (resumeTimer) window.clearTimeout(resumeTimer)
+      resumeTimer = window.setTimeout(resumeAutoScroll, 4000)
+    }
+
+    const scrollNextReel = () => {
+      if (paused || !inViewport) return
+
+      const cards = Array.from(container.querySelectorAll('.reel-showcase-card'))
+      if (!cards.length) return
+
+      const scrollLeft = container.scrollLeft
+      const maxScroll = container.scrollWidth - container.clientWidth
+      const atEnd = scrollLeft >= maxScroll - 8
+
+      if (atEnd) {
+        container.scrollTo({ left: 0, behavior: 'smooth' })
+        return
+      }
+
+      let currentIndex = 0
+      let minDistance = Infinity
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.offsetLeft - scrollLeft)
+        if (distance < minDistance) {
+          minDistance = distance
+          currentIndex = index
+        }
+      })
+
+      const nextCard = cards[Math.min(currentIndex + 1, cards.length - 1)]
+      if (nextCard) {
+        container.scrollTo({ left: nextCard.offsetLeft, behavior: 'smooth' })
+      }
+    }
+
+    const viewportObserver = new IntersectionObserver(
+      ([entry]) => {
+        inViewport = entry.isIntersecting
+        if (!inViewport) paused = true
+        else if (!resumeTimer) paused = false
+      },
+      { threshold: 0.2 },
+    )
+    viewportObserver.observe(showcase)
+
+    container.addEventListener('mouseenter', pauseAutoScroll)
+    container.addEventListener('mouseleave', resumeAutoScroll)
+    container.addEventListener('touchstart', pauseAutoScroll, { passive: true })
+    container.addEventListener('touchend', resumeAutoScrollLater, { passive: true })
+    container.addEventListener('wheel', pauseAutoScroll, { passive: true })
+    container.addEventListener('wheel', resumeAutoScrollLater, { passive: true })
+
+    const intervalId = window.setInterval(scrollNextReel, 4000)
+    return () => {
+      window.clearInterval(intervalId)
+      if (resumeTimer) window.clearTimeout(resumeTimer)
+      viewportObserver.disconnect()
+      container.removeEventListener('mouseenter', pauseAutoScroll)
+      container.removeEventListener('mouseleave', resumeAutoScroll)
+      container.removeEventListener('touchstart', pauseAutoScroll)
+      container.removeEventListener('touchend', resumeAutoScrollLater)
+      container.removeEventListener('wheel', pauseAutoScroll)
+      container.removeEventListener('wheel', resumeAutoScrollLater)
+    }
+  }, [reelIdsKey, reels.length])
+
+  const toggleMute = (e, reelId) => {
+    e.stopPropagation()
+    const isMuted = mutedIds.has(reelId)
+    sendYTCmd(reelId, isMuted ? 'unMute' : 'mute')
+    setMutedIds((prev) => {
+      const next = new Set(prev)
+      if (isMuted) next.delete(reelId)
+      else next.add(reelId)
+      return next
+    })
+  }
+
+  const toggleYTPause = (e, reelId) => {
+    e.stopPropagation()
+    const isPaused = pausedIds.has(reelId)
+    sendYTCmd(reelId, isPaused ? 'playVideo' : 'pauseVideo')
+    setPausedIds((prev) => {
+      const next = new Set(prev)
+      if (isPaused) next.delete(reelId)
+      else next.add(reelId)
+      return next
+    })
+    if (isPaused) startYtPlayback(reelId)
+  }
+
+  const toggleHtml5Pause = (e, reel) => {
+    e.stopPropagation()
+    const video = document.getElementById(`video-${reel.id}`)
+    if (!video) return
+    if (!pausedIds.has(reel.id) && !video.paused) {
+      video.pause()
+      setPausedIds((prev) => new Set(prev).add(reel.id))
+      return
+    }
+    video.play()?.catch(() => {})
+    setPausedIds((prev) => {
+      const next = new Set(prev)
+      next.delete(reel.id)
+      return next
+    })
+  }
 
   const processSteps = pageContent.processSteps || [
     {
@@ -234,7 +486,9 @@ export default function VideoEditing() {
         progress={progress}
         onOpenContact={() => setIsFormOpen(true)}
         navItems={content.nav}
-        logoSrc={content.assets?.logoBlack || '/assets/logos/color-black-crop.png'}
+        logoSrc={theme === 'dark' ? (content.assets?.logoWhite || '/assets/logos/color-white-crop.png') : (content.assets?.logoBlack || '/assets/logos/color-black-crop.png')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main className="service-subpage video-page" style={{ '--hero-accent-rgb': '243, 111, 33', '--step-accent-rgb': '243, 111, 33', '--section-accent-rgb': '243, 111, 33', '--reel-accent-rgb': '243, 111, 33', '--benefit-accent-rgb': '243, 111, 33' }}>
@@ -261,6 +515,9 @@ export default function VideoEditing() {
             src={pageImages.hero}
             variant="hero"
             className="video-service-art"
+            alt="Video editing for Instagram Reels, YouTube Shorts and podcasts by K For Kreative"
+            width={1619}
+            height={972}
           />
           <div className="service-hero-accent-glow" />
         </section>
@@ -292,7 +549,7 @@ export default function VideoEditing() {
         </section>
 
         {/* Selected Reels Grid Section */}
-        <section id="showcase" className="reels-grid-section" data-reveal>
+        <section id="showcase" ref={showcaseRef} className="reels-grid-section" data-reveal>
           <div className="section-inner">
             <div className="section-header-row">
               <div className="label-block">
@@ -304,48 +561,44 @@ export default function VideoEditing() {
             <div className="reels-fade-wrapper" data-show-left={reelsMask === 'both' || reelsMask === 'left-only'} data-show-right={reelsMask === 'both' || reelsMask === 'right-only'}>
               <div className="reels-container" ref={reelsRef}>
               {reels.map((reel) => {
-                const isYt = reel.videoUrl.includes('youtube.com') || reel.videoUrl.includes('youtu.be')
-                const isPlaying = playingId === reel.id
-                const isMuted = mutedIds.has(reel.id)
+                const isYt = isYoutubeUrl(reel.videoUrl)
                 const isPaused = pausedIds.has(reel.id)
-                const ytId = isYt ? getYtId(reel.videoUrl) : ''
+                const isMuted = mutedIds.has(reel.id)
+                const isPlaying = !isPaused
+                const progress = progressById[reel.id] ?? 0
                 return (
                   <div
                     key={reel.id}
+                    data-reel-id={reel.id}
                     className={`reel-showcase-card ${isPlaying ? 'is-playing' : ''}`}
-                    onClick={() => {
-                      if (isYt) return
-                      const video = document.getElementById(`video-${reel.id}`)
-                      if (!video) return
-                      if (isPlaying) { video.pause(); setPlayingId(null) }
-                      else {
-                        reels.forEach((r) => { if (r.id !== reel.id) document.getElementById(`video-${r.id}`)?.pause() })
-                        video.play(); setPlayingId(reel.id)
-                      }
-                    }}
                   >
                     <div className="reel-video-wrapper">
                       {isYt ? (
-                        <iframe
-                          key={reel.id}
-                          ref={el => { iframeRefs.current[reel.id] = el }}
-                          src={`${reel.videoUrl}?autoplay=1&mute=1&loop=1&controls=0&enablejsapi=1&playlist=${ytId}`}
-                          frameBorder="0"
-                          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                          allowFullScreen
-                          className="reel-html5-video"
-                          title={reel.title}
-                        />
+                        <div className={`yt-player-container ${isPlaying ? 'is-playing' : ''}`}>
+                          <iframe
+                            key={reel.id}
+                            ref={(el) => { iframeRefs.current[reel.id] = el }}
+                            src={buildYtEmbedSrc(reel.videoUrl, ytOrigin)}
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            className="yt-player-iframe"
+                            title={reel.title}
+                            onLoad={() => startYtPlayback(reel.id)}
+                          />
+                        </div>
                       ) : (
                         <video
                           id={`video-${reel.id}`}
                           src={reel.videoUrl}
-                          loop playsInline muted
+                          loop
+                          playsInline
+                          muted
+                          autoPlay
                           className="reel-html5-video"
                         />
                       )}
                       {isYt ? (
-                        <div className="reel-yt-controls">
+                        <div className="reel-yt-controls" onClick={(e) => e.stopPropagation()}>
                           <button
                             className={`reel-yt-btn ${isPaused ? '' : ''}`}
                             onClick={(e) => toggleYTPause(e, reel.id)}
@@ -368,7 +621,9 @@ export default function VideoEditing() {
                               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                             )}
                           </button>
-                          <div className="reel-control-progress" aria-hidden="true"><span /></div>
+                          <div className="reel-control-progress" aria-hidden="true">
+                            <span style={{ width: `${progress}%` }} />
+                          </div>
                           <a
                             className="reel-open-post"
                             href={reel.videoUrl.replace('/embed/', '/watch?v=')}
@@ -381,7 +636,7 @@ export default function VideoEditing() {
                         </div>
                       ) : (
                         <div className="reel-play-overlay">
-                          <button className="reel-play-indicator" aria-label="Play video">
+                          <button className="reel-play-indicator" aria-label={isPaused ? 'Play video' : 'Pause video'} onClick={(e) => toggleHtml5Pause(e, reel)}>
                             {isPlaying ? (
                               <svg className="pause-icon" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
                             ) : (
@@ -467,6 +722,8 @@ export default function VideoEditing() {
       </main>
 
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
+      <FloatingCTA onOpen={() => setIsFormOpen(true)} />
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
     </>
   )
 }

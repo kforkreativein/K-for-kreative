@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Navbar,
   ContactFormModal,
@@ -7,6 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
+  useTheme,
+  FloatingCTA,
+  ThemeToggle,
   ContactSection,
   upsertMeta,
   upsertCanonical
@@ -14,11 +17,88 @@ import {
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
 
+function DragScrollViewport({ children, className }) {
+  const ref = useRef(null)
+  const dragging = useRef(false)
+  const startY = useRef(0)
+  const startScrollTop = useRef(0)
+
+  const onMouseDown = (e) => {
+    dragging.current = true
+    startY.current = e.clientY
+    startScrollTop.current = ref.current.scrollTop
+    ref.current.style.cursor = 'grabbing'
+    ref.current.style.userSelect = 'none'
+  }
+
+  const onMouseMove = (e) => {
+    if (!dragging.current) return
+    ref.current.scrollTop = startScrollTop.current - (e.clientY - startY.current)
+  }
+
+  const stopDrag = () => {
+    dragging.current = false
+    if (ref.current) {
+      ref.current.style.cursor = 'grab'
+      ref.current.style.userSelect = ''
+    }
+  }
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={stopDrag}
+      onMouseLeave={stopDrag}
+    >
+      {children}
+    </div>
+  )
+}
+
+function SitePreview({ site }) {
+  const [imgFailed, setImgFailed] = useState(false)
+  const imgSrc = site.img || site.image
+
+  if (imgSrc && !imgFailed) {
+    return (
+      <img
+        src={imgSrc}
+        alt={`${site.title} website preview`}
+        className="browser-screenshot-img"
+        draggable={false}
+        loading="lazy"
+        decoding="async"
+        onError={() => setImgFailed(true)}
+      />
+    )
+  }
+
+  return (
+    <div className="browser-site-mock" aria-label={`${site.title} website preview`}>
+      <div className="browser-site-hero">
+        <span>{site.role}</span>
+        <strong>{site.title}</strong>
+        <p>{site.desc}</p>
+      </div>
+      <div className="browser-site-grid">
+        <span /><span /><span />
+      </div>
+      <div className="browser-site-rows">
+        <span /><span /><span />
+      </div>
+    </div>
+  )
+}
+
 export default function WebsiteDev() {
   const content = useSiteContent()
   const pageContent = content.websiteDev || {}
   const progress = useScrollProgress()
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const { theme, toggle: toggleTheme } = useTheme()
   const [activeSiteIndex, setActiveSiteIndex] = useState(0)
   const pageImages = pageContent.images || {}
   const ctaContent = {
@@ -68,25 +148,22 @@ export default function WebsiteDev() {
 
   const showcaseSites = (pageContent.sites || [
     {
-      title: 'Krish Live',
-      role: 'Portfolio',
+      id: 'loogaroo',
+      title: 'Loogaroo',
+      role: 'E-Commerce Brand',
+      url: 'https://www.loogaroo.co/',
+      image: '/assets/art/web-showcase-01.webp',
+      desc: 'A bold, conversion-focused e-commerce site with fast load times, clean product layouts, and mobile-first design.',
+      metrics: [{ label: 'Load Time', value: '0.9s' }, { label: 'Conversion', value: '4.6%' }]
+    },
+    {
+      id: 'krish-portfolio',
+      title: 'Krish Portfolio',
+      role: 'Personal Portfolio',
       url: 'https://www.krishchhatrala.live/',
-      img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop',
-      desc: 'A premium, high-speed personal brand portfolio website featuring smooth scroll effects and minimal aesthetics.'
-    },
-    {
-      title: 'KFK Hub',
-      role: 'Agency Site',
-      url: 'https://krishchhatrala.live/',
-      img: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2000&auto=format&fit=crop',
-      desc: 'Conversion-focused agency landing page built with custom layouts, asset loaders, and intake forms.'
-    },
-    {
-      title: 'Wellness',
-      role: 'Sales Page',
-      url: 'https://krishchhatrala.live/',
-      img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop',
-      desc: 'Optimized checkouts and landing grids tailored to drive wellness products subscriptions and conversions.'
+      image: '/assets/art/web-showcase-02.webp',
+      desc: 'A premium personal brand portfolio with smooth scroll effects, minimal aesthetics, and high visual impact.',
+      metrics: [{ label: 'Load Time', value: '0.8s' }, { label: 'Perf Score', value: '98/100' }]
     }
   ]).map((site) => ({
     ...site,
@@ -125,7 +202,9 @@ export default function WebsiteDev() {
         progress={progress}
         onOpenContact={() => setIsFormOpen(true)}
         navItems={content.nav}
-        logoSrc={content.assets?.logoBlack || '/assets/logos/color-black-crop.png'}
+        logoSrc={theme === 'dark' ? (content.assets?.logoWhite || '/assets/logos/color-white-crop.png') : (content.assets?.logoBlack || '/assets/logos/color-black-crop.png')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main className="service-subpage web-page" style={{ '--hero-accent-rgb': '93, 167, 122', '--step-accent-rgb': '93, 167, 122', '--section-accent-rgb': '93, 167, 122', '--benefit-accent-rgb': '93, 167, 122' }}>
@@ -152,6 +231,9 @@ export default function WebsiteDev() {
             src={pageImages.hero}
             variant="hero"
             className="web-service-art"
+            alt="Conversion-focused website development by K For Kreative"
+            width={1582}
+            height={994}
           />
           <div className="service-hero-accent-glow" style={{ background: 'radial-gradient(circle, rgba(93, 167, 122, 0.18), transparent 68%)' }} />
         </section>
@@ -205,24 +287,10 @@ export default function WebsiteDev() {
               </div>
 
               {/* Site preview */}
-              <div className="browser-viewport">
-                <div className="browser-site-mock" key={activeSiteIndex} aria-label={`${showcaseSites[activeSiteIndex].title} website preview`}>
-                  <div className="browser-site-hero">
-                    <span>{showcaseSites[activeSiteIndex].role}</span>
-                    <strong>{showcaseSites[activeSiteIndex].title}</strong>
-                    <p>{showcaseSites[activeSiteIndex].desc}</p>
-                  </div>
-                  <div className="browser-site-grid">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <div className="browser-site-rows">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                </div>
+              <div className="browser-viewport-wrapper">
+                <DragScrollViewport className="browser-viewport">
+                  <SitePreview key={activeSiteIndex} site={showcaseSites[activeSiteIndex]} />
+                </DragScrollViewport>
                 <a
                   href={showcaseSites[activeSiteIndex].url}
                   target="_blank"
@@ -237,7 +305,7 @@ export default function WebsiteDev() {
               <div className="browser-footer-banner">
                 <p>
                   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" width="12" height="12" style={{ verticalAlign: 'middle', marginRight: 4 }}><circle cx="10" cy="10" r="8" /><path d="M10 6v4l3 3" strokeLinecap="round" /></svg>
-                  <strong>Live Preview:</strong> Click “Visit Live Site” to explore the full website in a new tab.
+                  <strong>Drag to scroll</strong> through the full site, or click "Visit Live Site" to open it.
                 </p>
               </div>
             </div>
@@ -245,6 +313,16 @@ export default function WebsiteDev() {
             <div className="active-site-info-box">
               <h3>{showcaseSites[activeSiteIndex].title}</h3>
               <p>{showcaseSites[activeSiteIndex].desc}</p>
+              {showcaseSites[activeSiteIndex].metrics?.length > 0 && (
+                <div className="site-metrics-row">
+                  {showcaseSites[activeSiteIndex].metrics.map((m, i) => (
+                    <div className="site-metric-pill" key={i}>
+                      <span>{m.label}</span>
+                      <strong>{m.value}</strong>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -280,7 +358,7 @@ export default function WebsiteDev() {
         {/* Core Pillars */}
         <section className="service-benefits" data-reveal>
           <div className="section-inner">
-            <h2 className="section-center-title">{pageContent.featuresHeadline || 'Conversion-First Development Stack'}</h2>
+            <h2 className="section-center-title" style={{ textAlign: 'center' }}>{pageContent.featuresHeadline || 'Conversion-First Development Stack'}</h2>
             <div className="benefits-layout-grid">
               {(pageContent.features || []).map((feature, index) => (
                 <div className="benefit-card" key={index}>
@@ -324,6 +402,8 @@ export default function WebsiteDev() {
       </main>
 
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
+      <FloatingCTA onOpen={() => setIsFormOpen(true)} />
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
     </>
   )
 }

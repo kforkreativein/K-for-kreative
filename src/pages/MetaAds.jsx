@@ -7,6 +7,9 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
+  useTheme,
+  FloatingCTA,
+  ThemeToggle,
   ContactSection,
   upsertMeta,
   upsertCanonical
@@ -19,6 +22,7 @@ export default function MetaAds() {
   const pageContent = content.metaAds || {}
   const progress = useScrollProgress()
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const { theme, toggle: toggleTheme } = useTheme()
   const pageImages = pageContent.images || {}
   const ctaContent = {
     eyebrow: 'Start scaling ads',
@@ -115,7 +119,9 @@ export default function MetaAds() {
         progress={progress}
         onOpenContact={() => setIsFormOpen(true)}
         navItems={content.nav}
-        logoSrc={content.assets?.logoBlack || '/assets/logos/color-black-crop.png'}
+        logoSrc={theme === 'dark' ? (content.assets?.logoWhite || '/assets/logos/color-white-crop.png') : (content.assets?.logoBlack || '/assets/logos/color-black-crop.png')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main className="service-subpage ads-page" style={{ '--hero-accent-rgb': '204, 148, 8', '--step-accent-rgb': '204, 148, 8', '--section-accent-rgb': '204, 148, 8', '--benefit-accent-rgb': '204, 148, 8', '--dashboard-accent-rgb': '204, 148, 8' }}>
@@ -142,6 +148,9 @@ export default function MetaAds() {
             src={pageImages.hero}
             variant="hero"
             className="ads-service-art"
+            alt="Meta ads management for Facebook and Instagram by K For Kreative"
+            width={1536}
+            height={1024}
           />
           <div className="service-hero-accent-glow" style={{ background: 'radial-gradient(circle, rgba(204, 148, 8, 0.22), transparent 68%)' }} />
         </section>
@@ -252,7 +261,7 @@ export default function MetaAds() {
         {/* Core Pillars */}
         <section className="service-benefits" data-reveal>
           <div className="section-inner">
-            <h2 className="section-center-title">{pageContent.pillarsHeadline || 'The Performance Ad System'}</h2>
+            <h2 className="section-center-title" style={{ textAlign: 'center' }}>{pageContent.pillarsHeadline || 'The Performance Ad System'}</h2>
             <div className="benefits-layout-grid">
               {(pageContent.pillars || []).map((pillar, index) => (
                 <div className="benefit-card" key={index}>
@@ -296,6 +305,8 @@ export default function MetaAds() {
       </main>
 
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
+      <FloatingCTA onOpen={() => setIsFormOpen(true)} />
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
     </>
   )
 }

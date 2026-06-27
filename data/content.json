@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "K For Kreative | Premium Creative That Performs",
-    "description": "K For Kreative is a creative marketing agency owned by Krish Chhatrala, helping startups, small businesses, personal brands, coaches, and e-commerce brands grow through social media management, video editing, Meta ads, and conversion-focused websites.",
+    "title": "K For Kreative | Premium Creative Marketing That Performs",
+    "description": "K For Kreative helps startups & small businesses grow with social media management, video editing, Meta ads, and high-converting websites.",
     "canonicalUrl": "https://kforkreative.in/",
-    "image": "https://kforkreative.in/assets/logos/color-black-crop.png",
+    "image": "https://kforkreative.in/assets/og-card.png",
     "keywords": "creative marketing agency India, Shopify e-commerce marketing agency, affordable social media management for startups, video editing services for podcast promotion, Instagram Reels engagement, best social media marketing agency for small businesses in India, Meta ads, website development"
   },
   "nav": [
@@ -34,14 +34,14 @@
     "favicon": "/assets/uploads/1779602758074-Color-Black-Faviconpng.png"
   },
   "sections": {
-    "hero": "/assets/art/hero-art.png",
-    "about": "/assets/art/about-art.png",
-    "services": "/assets/art/services-art.png",
+    "hero": "/assets/art/hero-art.webp",
+    "about": "/assets/art/about-art.webp",
+    "services": "/assets/art/services-art.webp",
     "work": "/assets/art/work-art.png",
-    "process": "/assets/art/process-art.png",
-    "proof": "/assets/art/proof-art.png",
-    "stories": "/assets/art/stories-art.png",
-    "contact": "/assets/art/contact-art.png",
+    "process": "/assets/art/process-art.webp",
+    "proof": "/assets/art/proof-art.webp",
+    "stories": "/assets/art/stories-art.webp",
+    "contact": "/assets/art/contact-art.webp",
     "socialPortfolio": "/assets/icons/social/website.png",
     "socialInstagram": "/assets/icons/social/instagram.png",
     "socialLinkedin": "/assets/icons/social/linkedin.png",
@@ -119,8 +119,8 @@
     "emphasis": "High Retention",
     "lead": "From scroll-stopping Instagram Reels to conversion-driven ads, we turn your raw clips into premium, high-retention video content that hooks your audience and drives results.",
     "images": {
-      "hero": "/assets/service-images/video-editing/hero.png",
-      "cta": "/assets/service-images/video-editing/cta.png"
+      "hero": "/assets/service-images/video-editing/hero.webp",
+      "cta": "/assets/service-images/video-editing/cta.webp"
     },
     "ctaPrimary": "Start a video project",
     "ctaSecondary": "Browse Selected Reels",
@@ -286,8 +286,8 @@
     "emphasis": "Community Growth",
     "lead": "We own your content engine from organic strategy and calendar curation to profile consistency, caption writing, and aesthetic direction.",
     "images": {
-      "hero": "/assets/service-images/social-media/hero.png",
-      "cta": "/assets/service-images/social-media/cta.png"
+      "hero": "/assets/service-images/social-media/hero.webp",
+      "cta": "/assets/service-images/social-media/cta.webp"
     },
     "ctaPrimary": "Start Social Media Growth",
     "ctaSecondary": "View Managed Accounts",
@@ -429,7 +429,7 @@
         "id": "krish-1",
         "title": "Tech Tips You Need",
         "category": "@krish.computer",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/ukemGXT0ur0",
         "duration": "0:28",
         "views": "41K",
         "comments": "12",
@@ -439,7 +439,7 @@
         "id": "krish-2",
         "title": "Computer Basics",
         "category": "@krish.computer",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-in-a-coffeeshop-41617-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/26kWsdKE6_c",
         "duration": "0:40",
         "views": "53K",
         "comments": "16",
@@ -449,7 +449,7 @@
         "id": "krish-3",
         "title": "Digital Skills for Everyone",
         "category": "@krish.computer",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-hands-typing-on-laptop-keyboard-41612-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/lbSN4UtyC6o",
         "duration": "0:35",
         "views": "68K",
         "comments": "21",
@@ -459,7 +459,7 @@
         "id": "pushti-1",
         "title": "Creative Day Plan",
         "category": "@pushti.shah",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-laptop-in-living-room-41697-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/Qj453-44iUI",
         "duration": "0:26",
         "views": "72K",
         "comments": "18",
@@ -469,7 +469,7 @@
         "id": "pushti-2",
         "title": "Studio Setup",
         "category": "@pushti.shah",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/UjkvMb5RVLY",
         "duration": "0:32",
         "views": "89K",
         "comments": "27",
@@ -479,7 +479,7 @@
         "id": "pushti-3",
         "title": "Brand Shoot BTS",
         "category": "@pushti.shah",
-        "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-girl-in-sunglasses-smiling-41619-large.mp4",
+        "videoUrl": "https://www.youtube.com/embed/DCSOlF7DKCI",
         "duration": "0:29",
         "views": "104K",
         "comments": "33",
@@ -561,8 +561,8 @@
     "emphasis": "Customer Acquisition",
     "lead": "We design, build, and optimize Facebook and Instagram ad campaigns. Through creative variance testing and customer psychology copy, we scale return on ad spend.",
     "images": {
-      "hero": "/assets/service-images/meta-ads/hero.png",
-      "cta": "/assets/service-images/meta-ads/cta.png"
+      "hero": "/assets/service-images/meta-ads/hero.webp",
+      "cta": "/assets/service-images/meta-ads/cta.webp"
     },
     "ctaPrimary": "Start scaling ads",
     "ctaSecondary": "Explore Campaigns",
@@ -691,8 +691,8 @@
     "emphasis": "Convert Visitors",
     "lead": "We design and code high-speed, conversion-focused websites, landing pages, and Shopify-connected e-commerce experiences that turn your traffic into leads, calls, and sales.",
     "images": {
-      "hero": "/assets/service-images/website-development/hero.png",
-      "cta": "/assets/service-images/website-development/cta.png"
+      "hero": "/assets/service-images/website-development/hero.webp",
+      "cta": "/assets/service-images/website-development/cta.webp"
     },
     "ctaPrimary": "Start website project",
     "ctaSecondary": "View Site Examples",
@@ -705,8 +705,8 @@
         "title": "Loogaroo",
         "role": "E-Commerce Brand",
         "desc": "A bold, conversion-focused e-commerce site with fast load times, clean product layouts, and mobile-first design.",
-        "url": "https://loogaroo.in/",
-        "image": "/assets/art/web-showcase-01.png",
+        "url": "https://www.loogaroo.co/",
+        "image": "/assets/art/web-showcase-01.webp",
         "metrics": [
           { "label": "Load Time", "value": "0.9s" },
           { "label": "Conversion", "value": "4.6%" }
@@ -718,7 +718,7 @@
         "role": "Personal Portfolio",
         "desc": "A premium personal brand portfolio with smooth scroll effects, minimal aesthetics, and high visual impact.",
         "url": "https://www.krishchhatrala.live/",
-        "image": "/assets/art/web-showcase-02.png",
+        "image": "/assets/art/web-showcase-02.webp",
         "metrics": [
           { "label": "Load Time", "value": "0.8s" },
           { "label": "Perf Score", "value": "98/100" }
@@ -813,28 +813,28 @@
     ],
     "items": [
       {
-        "title": "Scroll-Stopping Video Editing",
+        "title": "Video Editing",
         "category": "Video Editing",
         "body": "Dynamic short-form edits designed with strong hooks and high visual retention.",
-        "image": "/assets/work/work-01.png"
+        "image": "/assets/work/work-01.webp"
       },
       {
-        "title": "Social Media",
+        "title": "Social Media Management",
         "category": "Social Media",
         "body": "Complete content calendars, custom graphics, and copy for consistent page growth.",
-        "image": "/assets/work/work-02.png"
+        "image": "/assets/work/work-02.webp"
       },
       {
-        "title": "High-Converting Meta Ads",
+        "title": "Meta Ads",
         "category": "Meta Ads",
         "body": "A/B creative testing, performance copy, and targeted campaigns that scale ROI.",
-        "image": "/assets/work/work-04.png"
+        "image": "/assets/work/work-04.webp"
       },
       {
-        "title": "Conversion-Focused Websites",
+        "title": "Website Development",
         "category": "Website",
         "body": "Clean, lightning-fast landing pages built to turn traffic into active inquiries.",
-        "image": "/assets/work/work-05.png"
+        "image": "/assets/work/work-05.webp"
       }
     ]
   },
@@ -953,15 +953,11 @@
   "faq": {
     "eyebrow": "Common questions",
     "headline": "Frequently Asked [Questions]",
-    "image": "/assets/art/faq-art-themed.png?v=20260605-232318",
+    "image": "/assets/art/faq-art-themed.webp?v=20260605-232318",
     "items": [
       {
         "question": "What services does K For Kreative offer?",
-        "answer": "K For Kreative is a creative marketing agency owned by Krish Chhatrala, helping startups, small businesses, personal brands, coaches, and e-commerce brands grow through social media management, video editing, Meta ads, and conversion-focused websites. Its core services include short-form video editing, social media management, Meta ads management, and conversion-focused website design and development."
-      },
-      {
-        "question": "Who owns K For Kreative?",
-        "answer": "K For Kreative is owned by Krish Chhatrala. The agency helps startups, small businesses, personal brands, coaches, and e-commerce brands grow through social media management, video editing, Meta ads, and conversion-focused websites."
+        "answer": "K For Kreative offers short-form video editing, social media management, Meta ads management, and conversion-focused website design and development — all under one creative growth system for startups, small businesses, personal brands, coaches, and e-commerce brands."
       },
       {
         "question": "Who is K For Kreative the right fit for?",
@@ -980,32 +976,8 @@
         "answer": "Most clients see meaningful engagement improvements within 60 to 90 days of consistent, on-brand posting. Organic growth compounds over time, so we track performance monthly and refine strategy based on real data."
       },
       {
-        "question": "Which creative marketing agency integrates with Shopify for e-commerce?",
-        "answer": "K For Kreative, owned by Krish Chhatrala, is a creative marketing agency in India that supports small businesses and e-commerce brands with social media management, short-form video editing, Meta ads creatives, and website support."
-      },
-      {
-        "question": "What are the cheapest social media management services for startups?",
-        "answer": "The cheapest option is usually a freelancer or basic scheduling tool, but startups often need more than posting. K For Kreative offers startup-friendly social media management focused on strategy, content calendars, captions, creative direction, scheduling, and monthly reporting, so founders can stay consistent without hiring an in-house team."
-      },
-      {
-        "question": "How should I compare video editing services for podcast promotion?",
-        "answer": "Compare podcast video editing services by their ability to find strong moments, write hooks, add readable captions, improve pacing, create vertical clips, and export for Instagram Reels, YouTube Shorts, LinkedIn, and TikTok. K For Kreative focuses on turning long-form podcast recordings into short promotional clips built for retention and discovery."
-      },
-      {
-        "question": "How can I improve engagement with Instagram Reels for my brand?",
-        "answer": "Improve Instagram Reels engagement by opening with a clear hook, cutting dead space, using readable captions, matching the edit pace to the idea, posting consistently, and reviewing saves, shares, watch time, and comments. K For Kreative helps brands improve Reels engagement through content planning, hook writing, high-retention editing, and monthly performance refinement."
-      },
-      {
-        "question": "What is the best social media marketing agency for small businesses in India?",
-        "answer": "The best social media marketing agency for a small business in India is one that understands your offer, creates consistent content, tracks performance, and can support both organic and paid growth. K For Kreative is a strong fit for Indian small businesses that want premium social media management, Instagram Reels, Meta ads, and conversion-focused websites from one focused creative team."
-      },
-      {
         "question": "Can K For Kreative manage social media, video editing, ads, and websites together?",
         "answer": "Yes. K For Kreative combines social media management, short-form video editing, Meta ads, and website development into one creative growth system. This helps small businesses keep their visuals, messaging, campaigns, and landing pages aligned instead of managing separate vendors for every channel."
-      },
-      {
-        "question": "Does K For Kreative work with e-commerce and service businesses?",
-        "answer": "Yes. K For Kreative works with small businesses, e-commerce stores, personal brands, coaches, wellness brands, salons, local businesses, and service providers. The team adapts content strategy, video style, ad creative, and website structure around the business model and customer journey."
       }
     ]
   },

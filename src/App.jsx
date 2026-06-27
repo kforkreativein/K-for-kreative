@@ -3,7 +3,7 @@ import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react
 import { normalizeContent } from '../lib/contentUtils.js'
 import AdminApp from './admin/AdminApp.jsx'
 import BracketText from './components/BracketText.jsx'
-import FooterSocialIcon from './components/FooterSocialIcon.jsx'
+import SiteFooter from './components/SiteFooter.jsx'
 import { defaultContent } from './siteData.js'
 import { useAdvancedScroll } from './scrollMotion.js'
 import { useNavbarShrink } from './useNavbarShrink.js'
@@ -12,6 +12,10 @@ import SocialMedia from './pages/SocialMedia.jsx'
 import MetaAds from './pages/MetaAds.jsx'
 import WebsiteDev from './pages/WebsiteDev.jsx'
 import ServicesPage from './pages/Services.jsx'
+import Privacy from './pages/Privacy.jsx'
+import Terms from './pages/Terms.jsx'
+import Accessibility from './pages/Accessibility.jsx'
+import CookieConsent from './components/CookieConsent.jsx'
 
 export const serviceSlugs = [
   'video-editing',
@@ -32,10 +36,10 @@ export function getServicePath(categoryOrTitle) {
 const hamburgerIcon = '/assets/icons/hamburger.png'
 const web3FormsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || ''
 const processVisualImages = {
-  research: '/assets/process/process-01.png',
-  planning: '/assets/process/process-02.png',
-  produce: '/assets/process/process-03.png',
-  refine: '/assets/process/process-04.png'
+  research: '/assets/process/process-01.webp',
+  planning: '/assets/process/process-02.webp',
+  produce: '/assets/process/process-03.webp',
+  refine: '/assets/process/process-04.webp'
 }
 
 export function upsertMeta(selector, attributeName, attributeValue, content) {
@@ -305,7 +309,19 @@ function ServiceIcon({ type }) {
   )
 }
 
-export function Navbar({ active, progress, onOpenContact, navItems, logoSrc }) {
+export function useTheme() {
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem('kfk-theme') || 'light'
+  )
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('kfk-theme', theme)
+  }, [theme])
+  const toggle = () => setTheme(t => t === 'light' ? 'dark' : 'light')
+  return { theme, toggle }
+}
+
+export function Navbar({ active, progress, onOpenContact, navItems, logoSrc, theme, onToggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleRef = useRef(null)
   const drawerRef = useRef(null)
@@ -380,7 +396,7 @@ export function Navbar({ active, progress, onOpenContact, navItems, logoSrc }) {
           <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
         </div>
         <a className="brand" href={getLinkHref('#hero')} aria-label="K For Kreative home">
-          <img src={logoSrc} alt="K For Kreative" />
+          <img src={logoSrc} alt="K For Kreative" width={701} height={265} />
         </a>
         <button
           ref={toggleRef}
@@ -449,6 +465,102 @@ export function Navbar({ active, progress, onOpenContact, navItems, logoSrc }) {
   )
 }
 
+export function ThemeToggle({ theme, onToggle }) {
+  // Hide the floating toggle once the footer scrolls into view so it never
+  // overlaps the footer content.
+  const [overFooter, setOverFooter] = useState(false)
+
+  useEffect(() => {
+    const footer = document.querySelector('.site-footer')
+    if (!footer) return undefined
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setOverFooter(entry.isIntersecting),
+      { rootMargin: '0px 0px -8% 0px', threshold: 0 },
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <button
+      className={`theme-toggle-btn${overFooter ? ' is-hidden' : ''}`}
+      type="button"
+      aria-hidden={overFooter}
+      tabIndex={overFooter ? -1 : 0}
+      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      onClick={onToggle}
+    >
+      {theme === 'dark' ? (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      )}
+    </button>
+  )
+}
+
+export function FloatingCTA({ onOpen, showFromTop = false }) {
+  const [visible, setVisible] = useState(showFromTop)
+  const [nearContact, setNearContact] = useState(false)
+  const [overFooter, setOverFooter] = useState(false)
+
+  useEffect(() => {
+    if (showFromTop) return
+    const onScroll = () => setVisible(window.scrollY > 200)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    const timer = setTimeout(() => setVisible(true), 4000)
+    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(timer) }
+  }, [showFromTop])
+
+  useEffect(() => {
+    const contact = document.getElementById('contact')
+    if (!contact) return
+    const obs = new IntersectionObserver(
+      ([entry]) => setNearContact(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    obs.observe(contact)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const footer = document.querySelector('.site-footer')
+    if (!footer) return undefined
+    const obs = new IntersectionObserver(
+      ([entry]) => setOverFooter(entry.isIntersecting),
+      { rootMargin: '0px 0px -8% 0px', threshold: 0 }
+    )
+    obs.observe(footer)
+    return () => obs.disconnect()
+  }, [])
+
+  const show = visible && !nearContact && !overFooter
+  return (
+    <button
+      className={`floating-cta${show ? ' is-visible' : ''}`}
+      onClick={onOpen}
+      aria-label="Open contact form"
+      type="button"
+    >
+      Let&apos;s Talk <ArrowIcon />
+    </button>
+  )
+}
+
+
 function SectionLabel({ eyebrow }) {
   return (
     <div className="section-label" data-reveal>
@@ -466,10 +578,14 @@ export function ArtPanel({
   parallaxMax,
   loading = 'lazy',
   fetchPriority = 'auto',
+  alt,
+  width,
+  height,
 }) {
+  const imgAlt = alt ?? caption ?? ''
   return (
     <figure className={`art-panel ${className}`} data-reveal data-parallax={parallax} data-parallax-max={parallaxMax}>
-      <img src={src} alt="" loading={loading} decoding="async" fetchPriority={fetchPriority} />
+      <img src={src} alt={imgAlt} loading={loading} decoding="async" fetchPriority={fetchPriority} width={width} height={height} />
       <div className="art-glass" aria-hidden="true" />
       {caption && <figcaption>{caption}</figcaption>}
       {children}
@@ -479,10 +595,27 @@ export function ArtPanel({
 
 function ProcessVisual({ type, title }) {
   const imageSrc = processVisualImages[type]
+  if (!imageSrc) return <div className={`process-step-visual process-step-image process-visual-${type}`} />
 
   return (
-    <div className={`process-step-visual process-step-image process-visual-${type}`} role="img" aria-label={`${title} process visual`}>
-      {imageSrc && <img src={imageSrc} alt="" loading="lazy" />}
+    <div className={`process-step-visual process-step-image process-visual-${type}`}>
+      <img src={imageSrc} alt={`${title} — K For Kreative creative process`} loading="lazy" decoding="async" width={1254} height={1254} />
+    </div>
+  )
+}
+
+function LogoCarousel({ clients }) {
+  if (!clients.length) return null
+  const doubled = [...clients, ...clients]
+  return (
+    <div className="logo-carousel-section" aria-label="Trusted by our clients" aria-hidden="true">
+      <div className="logo-carousel-inner">
+        <div className="logo-track">
+          {doubled.map((name, i) => (
+            <span className="logo-client-name" key={i}>{name}</span>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -507,8 +640,11 @@ function HeroSection({ content, onOpenContact }) {
           src={content.sections.hero}
           className="hero-art focus-right tall"
           caption={content.hero.artCaption}
+          alt="K For Kreative premium creative marketing work showcase"
           loading="eager"
           fetchPriority="high"
+          width={1054}
+          height={1492}
         />
       </div>
     </section>
@@ -525,7 +661,7 @@ function AboutSection({ content }) {
           <p data-reveal>{content.about.body}</p>
           <a className="text-link" href="#work" data-reveal>{content.about.linkLabel} <ArrowIcon /></a>
         </div>
-        <ArtPanel src={content.sections.about} className="focus-right sculpture about-growth-art" caption={content.about.artCaption} />
+        <ArtPanel src={content.sections.about} className="focus-right sculpture about-growth-art" caption={content.about.artCaption} alt="About K For Kreative — creative marketing studio" width={1183} height={1329} />
       </div>
     </section>
   )
@@ -546,7 +682,7 @@ export function ServicesSection({ content, onOpenContact }) {
             <p data-reveal>{content.services?.intro?.body}</p>
             <button className="button primary" type="button" onClick={onOpenContact} data-reveal>Start your project <ArrowIcon /></button>
           </div>
-          <ArtPanel src={content.sections.services} className="services-art services-art-showcase focus-center" parallax={0.018} parallaxMax={12} />
+          <ArtPanel src={content.sections.services} className="services-art services-art-showcase focus-center" parallax={0.018} parallaxMax={12} alt="K For Kreative creative services — video, social, Meta ads, websites" width={1254} height={1254} />
         </div>
         <div className="service-list service-list-four" data-reveal>
           {(content.services?.items || content.services || []).map((service, index) => (
@@ -596,7 +732,7 @@ function WorkSection({ content }) {
               className="project-card interactive-card"
               style={{ '--delay': `${index * 70}ms` }}
             >
-              <div className="project-thumb"><img src={item.image} alt={item.title} loading="lazy" /></div>
+              <div className="project-thumb"><img src={item.image} alt={item.title} loading="lazy" decoding="async" width={1254} height={1254} /></div>
               <div className="project-meta"><span>{item.category}</span><h3>{item.title}</h3><p>{item.body}</p></div>
               <span className="project-card-arrow" aria-hidden="true"><ArrowIcon /></span>
             </Link>
@@ -620,12 +756,12 @@ function ProcessSection({ content, onOpenContact }) {
               Start your project <ArrowIcon />
             </button>
           </div>
-          <ArtPanel src={content.sections.process} className="process-art focus-right" parallax={0.018} parallaxMax={12} />
+          <ArtPanel src={content.sections.process} className="process-art focus-right" parallax={0.018} parallaxMax={12} alt="K For Kreative creative process" width={1254} height={1254} />
         </div>
         <div className="process-board"><div className="process-steps" data-reveal>
           {content.process.steps.map((step, index) => (
             <article className="process-step" key={`${step.title}-${index}`}>
-              <div className="process-step-copy"><span className="process-step-tag">{step.tag}</span><h3>{step.title}</h3><p>{step.body}</p>{index < content.process.steps.length - 1 && <ArrowIcon />}</div>
+              <div className="process-step-copy"><span className="process-step-tag">{step.tag}</span><h3>{step.title}</h3><p>{step.body}</p>{index < content.process.steps.length - 1 && <span className="process-step-arrow" aria-hidden="true"><ArrowIcon /></span>}</div>
               <ProcessVisual type={step.visual} title={step.title} />
             </article>
           ))}
@@ -652,7 +788,7 @@ function ProofSection({ content, onOpenContact }) {
         </div>
         <div className="proof-visual" data-reveal>
           <div className="metric-stack">{content.proof.metrics.map((metric, index) => <div key={`${metric.label}-${index}`}><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div>
-          <ArtPanel src={content.sections.proof} className="proof-art proof-art-cropped" parallax={0} />
+          <ArtPanel src={content.sections.proof} className="proof-art proof-art-cropped" parallax={0} alt="Results and proof of work delivered by K For Kreative" width={1448} height={1086} />
         </div>
       </div>
     </section>
@@ -680,7 +816,7 @@ function StoriesSection({ content, onOpenContact }) {
           <button className="button primary" type="button" onClick={onOpenContact} data-reveal>{content.stories.linkLabel} <ArrowIcon /></button>
         </div>
         <div className="stories-art-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <ArtPanel src={content.sections.stories} className="focus-right story-art" />
+          <ArtPanel src={content.sections.stories} className="focus-right story-art" alt="K For Kreative client stories and testimonials" width={1190} height={1322} />
           <div className="client-row" data-reveal>{content.stories.clients.map((client) => <span key={client}>{client}</span>)}</div>
         </div>
       </div>
@@ -733,7 +869,7 @@ function FAQSection({ content }) {
             })}
           </div>
         </div>
-        <ArtPanel src={faq.image || content.sections.contact} className="faq-art focus-right" parallax={0.018} parallaxMax={12} />
+        <ArtPanel src={faq.image || content.sections.contact} className="faq-art focus-right" parallax={0.018} parallaxMax={12} alt="K For Kreative frequently asked questions" width={1188} height={1324} />
       </div>
     </section>
   )
@@ -838,32 +974,9 @@ export function ContactSection({ content, onOpenContact, artSrc, ctaContent }) {
             <a className="button ghost" href={`mailto:${contact.email || content.contact.email}`}>{contact.ctaSecondary}</a>
           </div>
         </div>
-        <ArtPanel src={artSrc || content.sections.contact} className="focus-right contact-art" />
+        <ArtPanel src={artSrc || content.sections.contact} className="focus-right contact-art" alt="Start a project with K For Kreative" width={1188} height={1324} />
       </div>
-      <footer className="footer">
-        <a className="footer-brand" href="#hero" aria-label="K For Kreative home">
-          <img src={content.assets?.logoWhite || '/assets/logos/color-white-crop.png'} alt="K For Kreative" />
-        </a>
-        <nav className="footer-socials" aria-label="Social links">
-          {content.footer.socials.map((item) => {
-            const isExternal = item.href.startsWith('http')
-
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                aria-label={`${item.label}${isExternal ? ' (opens in new tab)' : ''}`}
-                {...(isExternal ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-              >
-                <FooterSocialIcon name={item.icon} sections={content.sections} />
-              </a>
-            )
-          })}
-        </nav>
-        <p className="footer-copy">
-          © {new Date().getFullYear()} {content.footer.copyright}
-        </p>
-      </footer>
+      <SiteFooter content={content} />
     </section>
   )
 }
@@ -907,6 +1020,7 @@ function MarketingSite() {
   const progress = useScrollProgress()
   const active = useActiveSection()
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const { theme, toggle: toggleTheme } = useTheme()
 
   useReveals()
   useHashScroll()
@@ -942,7 +1056,11 @@ function MarketingSite() {
         progress={progress}
         onOpenContact={() => setIsFormOpen(true)}
         navItems={content.nav}
-        logoSrc={content.assets?.logoBlack || '/assets/logos/color-black-crop.png'}
+        logoSrc={theme === 'dark'
+          ? (content.assets?.logoWhite || '/assets/logos/color-white-crop.png')
+          : (content.assets?.logoBlack || '/assets/logos/color-black-crop.png')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
       <main>
         <HeroSection content={content} onOpenContact={() => setIsFormOpen(true)} />
@@ -955,6 +1073,8 @@ function MarketingSite() {
         <FAQSection content={content} />
         <ContactSection content={content} onOpenContact={() => setIsFormOpen(true)} />
       </main>
+      <FloatingCTA onOpen={() => setIsFormOpen(true)} />
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
     </>
   )
@@ -999,8 +1119,12 @@ export default function App() {
         <Route path="/services/social-media-management" element={<SocialMedia />} />
         <Route path="/services/meta-ads" element={<MetaAds />} />
         <Route path="/services/website" element={<WebsiteDev />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/accessibility" element={<Accessibility />} />
         <Route path="*" element={<PreviewRouteHandler />} />
       </Routes>
+      <CookieConsent />
     </BrowserRouter>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Navbar,
   ContactFormModal,
@@ -7,12 +7,16 @@ import {
   useSiteContent,
   useScrollProgress,
   useReveals,
+  useTheme,
+  FloatingCTA,
+  ThemeToggle,
   ContactSection,
   upsertMeta,
   upsertCanonical
 } from '../App.jsx'
 import BracketText from '../components/BracketText.jsx'
 import { ServiceArtBand } from '../components/ServiceArt.jsx'
+import { buildYtEmbedSrc, isYoutubeUrl, useReelPlayer } from '../hooks/useReelPlayer.js'
 
 // Premium Mobile Phone Screenshot Mockup
 function PhoneScreenshotMockup({ account }) {
@@ -54,14 +58,12 @@ export default function SocialMedia() {
   const pageContent = content.socialMedia || {}
   const progress = useScrollProgress()
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [playingId, setPlayingId] = useState(null)
-  const [mutedIds, setMutedIds] = useState(() => new Set())
-  const [pausedIds, setPausedIds] = useState(() => new Set())
-  const iframeRefs = useRef({})
+  const { theme, toggle: toggleTheme } = useTheme()
   const [selectedClient, setSelectedClient] = useState(() => (content.socialMedia?.accounts?.[0]?.name || 'Devi Bar'))
   const reelsRef = useRef(null)
   const [reelsMask, setReelsMask] = useState('right-only')
   const pageImages = pageContent.images || {}
+  const ytOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://kforkreative.in'
   const ctaContent = {
     eyebrow: 'Start page growth',
     headline: 'Ready for a social media system that [shows up consistently]?',
@@ -123,196 +125,33 @@ export default function SocialMedia() {
     return () => { document.getElementById('service-schema')?.remove() }
   }, [])
 
-  const accounts = pageContent.accounts || [
-    {
-      name: 'Mehul Chhatrala',
-      handle: '@mehulchhatrala',
-      niche: 'Health Consulting & Wellness',
-      stat: '10.5K+ Active Followers'
-    },
-    {
-      name: 'Raj Patel',
-      handle: '@rajpatel_official',
-      niche: 'Business Strategy & Scaling',
-      stat: '28K+ Monthly Reach'
-    },
-    {
-      name: 'Hemali Kevalia',
-      handle: '@hemalikevalia_wellness',
-      niche: 'Personal Growth & Coaching',
-      stat: '12% Engagement Lift'
-    },
-    {
-      name: 'Devi Bar',
-      handle: '@devibar_official',
-      niche: 'Fashion & Apparel',
-      stat: '50K+ Monthly Reach'
-    },
-    {
-      name: 'Pushti Shah',
-      handle: '@pushtishah_art',
-      niche: 'Creative & Art',
-      stat: '15% Engagement Lift'
-    }
-  ]
+  const accounts = useMemo(() => pageContent.accounts || [], [pageContent.accounts])
+  const clientReels = useMemo(() => pageContent.clientReels || [], [pageContent.clientReels])
 
-  const clientReels = pageContent.clientReels || [
-    // Mehul Chhatrala
-    {
-      id: 'mehul-1',
-      title: 'Morning Wellness Habits',
-      category: '@mehulchhatrala',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4',
-      duration: '0:22',
-      views: '48.2K',
-      comments: '218',
-      engagement: '4.5%'
-    },
-    {
-      id: 'mehul-2',
-      title: 'Superfood Plate Setup',
-      category: '@mehulchhatrala',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-healthy-meal-preparation-41846-large.mp4',
-      duration: '0:45',
-      views: '31.7K',
-      comments: '142',
-      engagement: '3.8%'
-    },
-    {
-      id: 'mehul-3',
-      title: 'Post-Workout Hydration',
-      category: '@mehulchhatrala',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fresh-breakfast-dishes-42202-large.mp4',
-      duration: '0:15',
-      views: '62.9K',
-      comments: '310',
-      engagement: '5.2%'
-    },
-    // Raj Patel
-    {
-      id: 'raj-1',
-      title: 'CEO Scaling Framework',
-      category: '@rajpatel_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-in-a-coffeeshop-41617-large.mp4',
-      duration: '0:35',
-      views: '94.3K',
-      comments: '512',
-      engagement: '6.1%'
-    },
-    {
-      id: 'raj-2',
-      title: 'Time Management Rules',
-      category: '@rajpatel_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-hands-typing-on-laptop-keyboard-41612-large.mp4',
-      duration: '0:28',
-      views: '77.1K',
-      comments: '388',
-      engagement: '5.4%'
-    },
-    {
-      id: 'raj-3',
-      title: 'Focus Strategy Sessions',
-      category: '@rajpatel_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-working-on-laptop-42316-large.mp4',
-      duration: '0:40',
-      views: '55.6K',
-      comments: '267',
-      engagement: '4.9%'
-    },
-    // Hemali Kevalia
-    {
-      id: 'hemali-1',
-      title: 'Mindset Shift for Growth',
-      category: '@hemalikevalia_wellness',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-sunglasses-smiling-41619-large.mp4',
-      duration: '0:30',
-      views: '38.4K',
-      comments: '174',
-      engagement: '4.2%'
-    },
-    {
-      id: 'hemali-2',
-      title: 'Daily Reflection Habit',
-      category: '@hemalikevalia_wellness',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-laptop-in-living-room-41697-large.mp4',
-      duration: '0:32',
-      views: '29.8K',
-      comments: '121',
-      engagement: '3.9%'
-    },
-    {
-      id: 'hemali-3',
-      title: 'Goal Setting Masterclass',
-      category: '@hemalikevalia_wellness',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-holding-smartphone-close-up-41584-large.mp4',
-      duration: '0:19',
-      views: '51.2K',
-      comments: '296',
-      engagement: '5.8%'
-    },
-    // Devi Bar
-    {
-      id: 'devi-1',
-      title: 'Summer Collection Drop',
-      category: '@devibar_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-sunglasses-smiling-41619-large.mp4',
-      duration: '0:25',
-      views: '80.5K',
-      comments: '441',
-      engagement: '6.5%'
-    },
-    {
-      id: 'devi-2',
-      title: 'Behind The Scenes',
-      category: '@devibar_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-laptop-in-living-room-41697-large.mp4',
-      duration: '0:45',
-      views: '45.2K',
-      comments: '203',
-      engagement: '5.1%'
-    },
-    {
-      id: 'devi-3',
-      title: 'Styling Tips',
-      category: '@devibar_official',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-working-on-laptop-42316-large.mp4',
-      duration: '0:30',
-      views: '65.8K',
-      comments: '318',
-      engagement: '5.9%'
-    },
-    // Pushti Shah
-    {
-      id: 'pushti-1',
-      title: 'Studio Tour',
-      category: '@pushtishah_art',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-in-a-coffeeshop-41617-large.mp4',
-      duration: '0:50',
-      views: '22.1K',
-      comments: '158',
-      engagement: '7.2%'
-    },
-    {
-      id: 'pushti-2',
-      title: 'Painting Process',
-      category: '@pushtishah_art',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-hands-typing-on-laptop-keyboard-41612-large.mp4',
-      duration: '0:60',
-      views: '35.4K',
-      comments: '287',
-      engagement: '8.1%'
-    },
-    {
-      id: 'pushti-3',
-      title: 'Art Exhibition',
-      category: '@pushtishah_art',
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-women-checking-phone-at-cafe-41710-large.mp4',
-      duration: '0:40',
-      views: '18.9K',
-      comments: '134',
-      engagement: '6.8%'
-    }
-  ]
+  const selectedAccount = accounts.find((acc) => acc.name === selectedClient)
+  const selectedHandle = selectedAccount?.handle || accounts[0]?.handle || '@devi_lifestyle_coach'
+  const filteredReels = useMemo(
+    () => clientReels.filter((reel) => reel.category === selectedHandle),
+    [clientReels, selectedHandle],
+  )
+
+  useEffect(() => {
+    reelsRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+  }, [selectedHandle])
+
+  const {
+    mutedIds,
+    pausedIds,
+    progressById,
+    iframeRefs,
+    startYtPlayback,
+    toggleMute,
+    toggleYTPause,
+    toggleHtml5Pause,
+  } = useReelPlayer(filteredReels, {
+    observerSelector: '.social-page .reel-showcase-card[data-reel-id]',
+    resetKey: selectedHandle,
+  })
 
   const processSteps = pageContent.processSteps || [
     {
@@ -337,45 +176,6 @@ export default function SocialMedia() {
     }
   ]
 
-  // Pause all playing videos when changing the selected client
-  useEffect(() => {
-    clientReels.forEach((reel) => {
-      const video = document.getElementById(`video-${reel.id}`)
-      if (video) {
-        video.pause()
-        video.currentTime = 0
-      }
-    })
-    setPlayingId(null)
-  }, [selectedClient])
-
-  const getYtId = (url) => url.split('/embed/')[1]?.split('?')[0] ?? ''
-
-  const sendYTCmd = (reelId, func) => {
-    const iframe = iframeRefs.current[reelId]
-    if (iframe?.contentWindow) {
-      iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: '' }), '*')
-    }
-  }
-
-  const toggleMute = (e, reelId) => {
-    e.stopPropagation()
-    const isMuted = mutedIds.has(reelId)
-    sendYTCmd(reelId, isMuted ? 'unMute' : 'mute')
-    setMutedIds(prev => { const next = new Set(prev); isMuted ? next.delete(reelId) : next.add(reelId); return next })
-  }
-
-  const toggleYTPause = (e, reelId) => {
-    e.stopPropagation()
-    const isPaused = pausedIds.has(reelId)
-    sendYTCmd(reelId, isPaused ? 'playVideo' : 'pauseVideo')
-    setPausedIds(prev => { const next = new Set(prev); isPaused ? next.delete(reelId) : next.add(reelId); return next })
-  }
-
-  const selectedAccount = accounts.find((acc) => acc.name === selectedClient)
-  const selectedHandle = selectedAccount ? selectedAccount.handle : (accounts[0]?.handle || '@devi_lifestyle_coach')
-  const filteredReels = clientReels.filter((reel) => reel.category === selectedHandle)
-
   return (
     <>
       <div className="paper-grain" aria-hidden="true" />
@@ -384,7 +184,9 @@ export default function SocialMedia() {
         progress={progress}
         onOpenContact={() => setIsFormOpen(true)}
         navItems={content.nav}
-        logoSrc={content.assets?.logoBlack || '/assets/logos/color-black-crop.png'}
+        logoSrc={theme === 'dark' ? (content.assets?.logoWhite || '/assets/logos/color-white-crop.png') : (content.assets?.logoBlack || '/assets/logos/color-black-crop.png')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main className="service-subpage social-page" style={{ '--hero-accent-rgb': '45, 125, 246', '--step-accent-rgb': '45, 125, 246', '--section-accent-rgb': '45, 125, 246', '--reel-accent-rgb': '45, 125, 246', '--benefit-accent-rgb': '45, 125, 246' }}>
@@ -411,6 +213,9 @@ export default function SocialMedia() {
             src={pageImages.hero}
             variant="hero"
             className="social-service-art"
+            alt="Social media management for startups and small businesses by K For Kreative"
+            width={1619}
+            height={972}
           />
           <div className="service-hero-accent-glow" style={{ background: 'radial-gradient(circle, rgba(45, 125, 246, 0.2), transparent 68%)' }} />
         </section>
@@ -481,50 +286,46 @@ export default function SocialMedia() {
               ))}
             </div>
 
-            <div className="reels-container" ref={reelsRef} data-mask={reelsMask}>
+            <div key={selectedHandle} className="reels-container" ref={reelsRef} data-mask={reelsMask}>
               {filteredReels.map((reel) => {
-                const isYt = reel.videoUrl.includes('youtube.com') || reel.videoUrl.includes('youtu.be')
-                const isPlaying = playingId === reel.id
-                const isMuted = mutedIds.has(reel.id)
+                const isYt = isYoutubeUrl(reel.videoUrl)
                 const isPaused = pausedIds.has(reel.id)
-                const ytId = isYt ? getYtId(reel.videoUrl) : ''
+                const isMuted = mutedIds.has(reel.id)
+                const isPlaying = !isPaused
+                const progress = progressById[reel.id] ?? 0
                 return (
                   <div
                     key={reel.id}
+                    data-reel-id={reel.id}
                     className={`reel-showcase-card ${isPlaying ? 'is-playing' : ''}`}
-                    onClick={() => {
-                      if (isYt) return
-                      const video = document.getElementById(`video-${reel.id}`)
-                      if (!video) return
-                      if (isPlaying) { video.pause(); setPlayingId(null) }
-                      else {
-                        filteredReels.forEach((r) => { if (r.id !== reel.id) document.getElementById(`video-${r.id}`)?.pause() })
-                        video.play(); setPlayingId(reel.id)
-                      }
-                    }}
                   >
                     <div className="reel-video-wrapper">
                       {isYt ? (
-                        <iframe
-                          key={reel.id}
-                          ref={el => { iframeRefs.current[reel.id] = el }}
-                          src={`${reel.videoUrl}?autoplay=1&mute=1&loop=1&controls=0&enablejsapi=1&playlist=${ytId}`}
-                          frameBorder="0"
-                          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                          allowFullScreen
-                          className="reel-html5-video"
-                          title={reel.title}
-                        />
+                        <div className={`yt-player-container ${isPlaying ? 'is-playing' : ''}`}>
+                          <iframe
+                            key={reel.id}
+                            ref={(el) => { iframeRefs.current[reel.id] = el }}
+                            src={buildYtEmbedSrc(reel.videoUrl, ytOrigin)}
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            className="yt-player-iframe"
+                            title={reel.title}
+                            onLoad={() => startYtPlayback(reel.id)}
+                          />
+                        </div>
                       ) : (
                         <video
                           id={`video-${reel.id}`}
                           src={reel.videoUrl}
-                          loop playsInline muted
+                          loop
+                          playsInline
+                          muted
+                          autoPlay
                           className="reel-html5-video"
                         />
                       )}
                       {isYt ? (
-                        <div className="reel-yt-controls">
+                        <div className="reel-yt-controls" onClick={(e) => e.stopPropagation()}>
                           <button
                             className="reel-yt-btn"
                             onClick={(e) => toggleYTPause(e, reel.id)}
@@ -545,7 +346,9 @@ export default function SocialMedia() {
                               : <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                             }
                           </button>
-                          <div className="reel-control-progress" aria-hidden="true"><span /></div>
+                          <div className="reel-control-progress" aria-hidden="true">
+                            <span style={{ width: `${progress}%` }} />
+                          </div>
                           <a
                             className="reel-open-post"
                             href={reel.videoUrl.replace('/embed/', '/watch?v=')}
@@ -558,7 +361,7 @@ export default function SocialMedia() {
                         </div>
                       ) : (
                         <div className="reel-play-overlay">
-                          <button className="reel-play-indicator" aria-label="Play video">
+                          <button className="reel-play-indicator" aria-label={isPaused ? 'Play video' : 'Pause video'} onClick={(e) => toggleHtml5Pause(e, reel)}>
                             {isPlaying
                               ? <svg className="pause-icon" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
                               : <svg className="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
@@ -626,7 +429,7 @@ export default function SocialMedia() {
         {/* Core Pillars */}
         <section className="service-benefits" data-reveal>
           <div className="section-inner">
-            <h2 className="section-center-title">{pageContent.pillarsHeadline || 'Our Growth Execution Pillars'}</h2>
+            <h2 className="section-center-title" style={{ textAlign: 'center' }}>{pageContent.pillarsHeadline || 'Our Growth Execution Pillars'}</h2>
             <div className="benefits-layout-grid">
               {(pageContent.pillars || []).map((pillar, index) => (
                 <div className="benefit-card" key={index}>
@@ -669,6 +472,8 @@ export default function SocialMedia() {
       </main>
 
       {isFormOpen && <ContactFormModal onClose={() => setIsFormOpen(false)} content={content} />}
+      <FloatingCTA onOpen={() => setIsFormOpen(true)} />
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
     </>
   )
 }
