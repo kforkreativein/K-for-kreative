@@ -8132,3 +8132,121 @@ html {
     flex: 1;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LIQUID GLASS LAYER
+   Frosted, translucent surfaces with a bright specular edge — applied
+   to the control layer (pills, nav, ghost buttons, toggle, CTA) and the
+   feature panels (service / work / proof / FAQ cards). Theme-aware tokens
+   let one rule set drive both light and dark modes (~50% transparency).
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --glass-fill: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-blur: blur(22px) saturate(165%);
+  --glass-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(17, 16, 14, 0.04);
+  --glass-shadow: 0 16px 44px rgba(58, 45, 28, 0.12);
+}
+
+[data-theme="dark"] {
+  --glass-fill: rgba(54, 49, 44, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-blur: blur(22px) saturate(150%);
+  --glass-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.22);
+  --glass-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* Shared glass for capsules + simple panels. The dark-scoped copies only
+   exist to outrank the element-specific [data-theme="dark"] overrides. */
+.section-label span,
+.navbar-pill,
+.nav-cta,
+figcaption,
+.button.ghost,
+.metric-stack div,
+.faq-item,
+.proof-list article,
+.project-card,
+.theme-toggle-btn,
+[data-theme="dark"] .section-label span,
+[data-theme="dark"] .navbar-pill,
+[data-theme="dark"] .nav-cta,
+[data-theme="dark"] figcaption,
+[data-theme="dark"] .button.ghost,
+[data-theme="dark"] .metric-stack div,
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] .proof-list article,
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .theme-toggle-btn {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-sheen);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* Service cards keep their per-tone accent glow layered over the glass. */
+.service-card,
+[data-theme="dark"] .service-card {
+  background:
+    radial-gradient(circle at 86% 12%,
+      color-mix(in srgb, var(--service-accent) 16%, transparent), transparent 7rem),
+    var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-sheen);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* Floating "Let's Talk" CTA — prominent adaptive glass that flips with theme
+   (dark glass + light text in light mode, and the reverse in dark mode). */
+.floating-cta {
+  background: color-mix(in srgb, var(--ink) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 30%, transparent);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+.floating-cta:hover {
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 color-mix(in srgb, var(--paper) 32%, transparent);
+}
+
+/* The contact section sits on a permanent dark panel, so its ghost button
+   needs a dark-friendly glass to stay legible. */
+.contact-copy .button.ghost {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(248, 242, 232, 0.28);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Accessibility: honour a reduced-transparency preference with solid fills. */
+@media (prefers-reduced-transparency: reduce) {
+  .section-label span,
+  .navbar-pill,
+  .nav-cta,
+  figcaption,
+  .button.ghost,
+  .metric-stack div,
+  .faq-item,
+  .proof-list article,
+  .project-card,
+  .service-card,
+  .theme-toggle-btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--paper);
+  }
+  .floating-cta {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--ink);
+  }
+  .contact-copy .button.ghost {
+    background: rgba(17, 16, 14, 0.62);
+  }
+}

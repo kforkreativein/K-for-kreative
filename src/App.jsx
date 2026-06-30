@@ -16,6 +16,12 @@ import Privacy from './pages/Privacy.jsx'
 import Terms from './pages/Terms.jsx'
 import Accessibility from './pages/Accessibility.jsx'
 import CookieConsent from './components/CookieConsent.jsx'
+import RoadmapIntake from './pages/roadmap/RoadmapIntake.jsx'
+import RoadmapThankYou from './pages/roadmap/RoadmapThankYou.jsx'
+import RoadmapView from './pages/roadmap/RoadmapView.jsx'
+import RoadmapDashboard from './pages/roadmap/RoadmapDashboard.jsx'
+import RoadmapDashboardDetail from './pages/roadmap/RoadmapDashboardDetail.jsx'
+import RoadmapDashboardLogin from './pages/roadmap/RoadmapDashboardLogin.jsx'
 
 export const serviceSlugs = [
   'video-editing',
@@ -1113,6 +1119,12 @@ export default function App() {
       {isLoading && <AppLoader />}
       <ScrollRuntime />
       <Routes>
+        <Route path="/roadmap" element={<RoadmapIntake />} />
+        <Route path="/roadmap/thank-you" element={<RoadmapThankYou />} />
+        <Route path="/roadmap/:id" element={<RoadmapView />} />
+        <Route path="/roadmap-dashboard" element={<RoadmapDashboard />} />
+        <Route path="/roadmap-dashboard/login" element={<RoadmapDashboardLogin />} />
+        <Route path="/roadmap-dashboard/:id" element={<RoadmapDashboardDetail />} />
         <Route path="/admin" element={<AdminApp />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/video-editing" element={<VideoEditing />} />
